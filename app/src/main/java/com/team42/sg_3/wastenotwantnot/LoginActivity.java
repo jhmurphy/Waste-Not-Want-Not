@@ -20,6 +20,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -29,6 +30,18 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -187,9 +200,38 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         } else {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
-            showProgress(true);
-            mAuthTask = new UserLoginTask(email, password);
-            mAuthTask.execute((Void) null);
+            //showProgress(true);
+            /*mAuthTask = new UserLoginTask(email, password);
+            mAuthTask.execute((Void) null);*/
+            // Instantiate the RequestQueue.
+            RequestQueue queue = Volley.newRequestQueue(this);
+            String url ="http://proj-309-sg-3.cs.iastate.edu";
+
+            // Request a string response from the provided URL.
+            /*GET - Used for basic read requests to the server
+                            PUT- Used to modify an existing object on the server
+                            POST- Used to create a new object on the server
+                            DELETE - Used to remove an object on the server*/
+            StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) throws JSONException {
+
+                            // Display the first 500 characters of the response string.
+                            JSONObject user = new JSONObject(response);
+                            /*Log.d("STATE", "username: " + user.getString("username") + " password: " + user.getString("password")
+                            + " salt: " + user.getString("salt") + " email: " + user.getString("email"));*/
+                            //Log.d("STATE", "test");
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Log.d("STATE", "error");
+                }
+            });
+            // Add the request to the RequestQueue.
+            queue.add(stringRequest);
+
         }
     }
 
