@@ -60,7 +60,7 @@ public class SignupActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_signup);
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
 
@@ -77,21 +77,12 @@ public class SignupActivity extends AppCompatActivity {
                 return false;
             }
         });
-
-        Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
-        mEmailSignInButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                attemptSignup();
-                Intent navigationPage = new Intent(SignupActivity.this, LoginActivity.class);
-                startActivity(navigationPage);
-            }
-        });
-
-        mLoginFormView = findViewById(R.id.login_form);
-        mProgressView = findViewById(R.id.login_progress);
     }
 
+    public void goToLogin(View view) {
+        Intent loginPage = new Intent(SignupActivity.this, LoginActivity.class);
+        startActivity(loginPage);
+    }
 
     /**
      * Attempts to sign in or register the account specified by the signup form.

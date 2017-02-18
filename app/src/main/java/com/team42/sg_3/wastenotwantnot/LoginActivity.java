@@ -80,7 +80,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
+        Button mEmailSignInButton = (Button) findViewById(R.id.log_in_button);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -89,11 +89,13 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(navigationPage);
             }
         });
-
-        mLoginFormView = findViewById(R.id.login_form);
-        mProgressView = findViewById(R.id.login_progress);
     }
 
+
+    public void goToSignup(View view) {
+        Intent signupPage = new Intent(LoginActivity.this, SignupActivity.class);
+        startActivity(signupPage);
+    }
 
     /**
      * Attempts to sign in or register the account specified by the login form.
