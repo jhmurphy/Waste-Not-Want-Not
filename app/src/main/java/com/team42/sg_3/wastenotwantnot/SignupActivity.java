@@ -19,6 +19,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.test.ViewAsserts;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -30,11 +31,14 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -44,6 +48,9 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static android.Manifest.permission.READ_CONTACTS;
 
 /**
@@ -52,6 +59,8 @@ import static android.Manifest.permission.READ_CONTACTS;
 public class SignupActivity extends AppCompatActivity {
 
     // UI references.
+    private EditText name;
+    private EditText UserName;
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
     private View mProgressView;
@@ -62,6 +71,8 @@ public class SignupActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
         // Set up the login form.
+        name = (EditText) findViewById(R.id.name);
+        UserName = (EditText) findViewById(R.id.username);
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
 
         mPasswordView = (EditText) findViewById(R.id.password);
@@ -79,7 +90,15 @@ public class SignupActivity extends AppCompatActivity {
         });
     }
 
-    public void goToLogin(View view) {
+    public void onClick(View v){
+        attemptSignup();
+    }
+
+    public void goToLogin(/*View view*/) {
+        /*
+        view parameter removed by Cory 2/23/17 for enabling it to be called easier
+        on response in attemptSignup
+         */
         Intent loginPage = new Intent(SignupActivity.this, LoginActivity.class);
         startActivity(loginPage);
     }
@@ -95,8 +114,10 @@ public class SignupActivity extends AppCompatActivity {
         mPasswordView.setError(null);
 
         // Store values at the time of the login attempt.
-        String email = mEmailView.getText().toString();
-        String password = mPasswordView.getText().toString();
+        final String email = mEmailView.getText().toString().trim();
+        final String password = mPasswordView.getText().toString().trim();
+        final String nm = name.getText().toString().trim();
+        final String un = UserName.getText().toString().trim();
 
         boolean cancel = false;
         View focusView = null;
@@ -119,6 +140,25 @@ public class SignupActivity extends AppCompatActivity {
             cancel = true;
         }
 
+        /*
+        These next two checks were added by Cory 2/23/17
+         */
+
+        // check for valid username
+        if(TextUtils.isEmpty(un)){
+            UserName.setError("This field is required");
+            focusView = UserName;
+            cancel = true;
+        }
+
+        // check for valid name
+        if(TextUtils.isEmpty(nm)){
+            name.setError("This field is required");
+            focusView = name;
+            cancel = true;
+        }
+
+
         if (cancel) {
             focusView.requestFocus();
         } else {
@@ -129,21 +169,30 @@ public class SignupActivity extends AppCompatActivity {
               PUT- Used to modify an existing object on the server
               POST- Used to create a new object on the server
               DELETE - Used to remove an object on the server*/
-            StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-                    new Response.Listener<String>() {
-                        @Override
-                        public void onResponse(String response) throws JSONException {
-                            JSONObject user = new JSONObject(response);
-                            /*Log.d("STATE", "username: " + user.getString("username") + " password: " + user.getString("password")
-                            + " salt: " + user.getString("salt") + " email: " + user.getString("email"));*/
-                            //Log.d("STATE", "test");
-                        }
-                    }, new Response.ErrorListener() {
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>(){
                 @Override
-                public void onErrorResponse(VolleyError error) {
-                    Log.d("STATE", "error");
+                public void onResponse(String response){
+                    Toast.makeText(SignupActivity.this, response, Toast.LENGTH_LONG).show();
+                    goToLogin();
                 }
-            });
+            }, new Response.ErrorListener(){
+                @Override
+                public void onErrorResponse(VolleyError error){
+                    Toast.makeText(SignupActivity.this, error.toString(), Toast.LENGTH_LONG).show();
+                }
+            }) {
+
+
+                @Override
+                protected Map<String,String> getParams(){
+                    Map<String,String> params = new HashMap<String,String>();
+                    params.put("name",nm);//name
+                    params.put("username",un);//username
+                    params.put("password",password);//password
+                    params.put("email",email);//email
+                    return params;
+                }
+            };
             queue.add(stringRequest);
 
         }
