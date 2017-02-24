@@ -162,8 +162,7 @@ public class SignupActivity extends AppCompatActivity {
         if (cancel) {
             focusView.requestFocus();
         } else {
-            RequestQueue queue = Volley.newRequestQueue(this);
-            String url ="http://proj-309-sg-3.cs.iastate.edu";
+            final String url ="http://proj-309-sg-3.cs.iastate.edu/signup.php";
 
             /*GET - Used for basic read requests to the server
               PUT- Used to modify an existing object on the server
@@ -193,6 +192,7 @@ public class SignupActivity extends AppCompatActivity {
                     return params;
                 }
             };
+            RequestQueue queue = Volley.newRequestQueue(this);
             queue.add(stringRequest);
 
         }
