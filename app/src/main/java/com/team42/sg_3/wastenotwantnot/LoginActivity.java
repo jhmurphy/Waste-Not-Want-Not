@@ -88,10 +88,13 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 attemptLogin();
-                Intent navigationPage = new Intent(LoginActivity.this, NavigationActivity.class);
-                startActivity(navigationPage);
             }
         });
+    }
+
+    public void login(){
+        Intent navigationPage = new Intent(LoginActivity.this, NavigationActivity.class);
+        startActivity(navigationPage);
     }
 
 
@@ -107,6 +110,7 @@ public class LoginActivity extends AppCompatActivity {
      */
     private void attemptLogin() {
         // Reset errors.
+
         mUsernameView.setError(null);
         mPasswordView.setError(null);
 
@@ -144,10 +148,13 @@ public class LoginActivity extends AppCompatActivity {
               PUT- Used to modify an existing object on the server
               POST- Used to create a new object on the server
               DELETE - Used to remove an object on the server*/
-            StringRequest stringRequest = new StringRequest(Request.Method.GET, url,new Response.Listener<String>(){
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, url,new Response.Listener<String>(){
                 @Override
                 public void onResponse(String response){
                     Toast.makeText(LoginActivity.this, response, Toast.LENGTH_LONG).show();
+                    if(response.equals("Login successful")){
+                        login();
+                    }
                 }
             }, new Response.ErrorListener(){
                 @Override
@@ -166,7 +173,6 @@ public class LoginActivity extends AppCompatActivity {
                 }
             };
             queue.add(stringRequest);
-
         }
     }
 
