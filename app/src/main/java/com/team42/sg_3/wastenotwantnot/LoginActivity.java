@@ -134,7 +134,7 @@ public class LoginActivity extends AppCompatActivity {
             focusView.requestFocus();
         } else {
             RequestQueue queue = Volley.newRequestQueue(this);
-            String url ="http://proj-309-sg-3.cs.iastate.edu";
+            String url ="http://proj-309-sg-3.cs.iastate.edu/test.php";
 
             // Request a string response from the provided URL.
             /*GET - Used for basic read requests to the server
@@ -147,8 +147,8 @@ public class LoginActivity extends AppCompatActivity {
                         public void onResponse(String response) throws JSONException {
 
                             JSONObject user = new JSONObject(response);
-                            /*Log.d("STATE", "username: " + user.getString("username") + " password: " + user.getString("password")
-                            + " salt: " + user.getString("salt") + " email: " + user.getString("email"));*/
+                            Log.d("STATE", "username: " + user.getString("username") + " password: " + user.getString("password")
+                            + " salt: " + user.getString("salt") + " email: " + user.getString("email"));
                             //Log.d("STATE", "test");
                         }
                     }, new Response.ErrorListener() {
