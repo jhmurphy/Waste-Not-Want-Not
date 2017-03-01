@@ -46,6 +46,9 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static android.Manifest.permission.READ_CONTACTS;
 
 /**
@@ -85,10 +88,12 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 attemptLogin();
-                Intent navigationPage = new Intent(LoginActivity.this, NavigationActivity.class);
-                startActivity(navigationPage);
             }
         });
+    }
+
+    public void login(View view){
+        attemptLogin();
     }
 
 
@@ -104,12 +109,13 @@ public class LoginActivity extends AppCompatActivity {
      */
     private void attemptLogin() {
         // Reset errors.
+
         mUsernameView.setError(null);
         mPasswordView.setError(null);
 
         // Store values at the time of the login attempt.
-        String username = mUsernameView.getText().toString();
-        String password = mPasswordView.getText().toString();
+        final String username = mUsernameView.getText().toString();
+        final String password = mPasswordView.getText().toString();
 
         boolean cancel = false;
         View focusView = null;
@@ -134,31 +140,35 @@ public class LoginActivity extends AppCompatActivity {
             focusView.requestFocus();
         } else {
             RequestQueue queue = Volley.newRequestQueue(this);
-            String url ="http://proj-309-sg-3.cs.iastate.edu/test.php";
-
-            // Request a string response from the provided URL.
-            /*GET - Used for basic read requests to the server
-              PUT- Used to modify an existing object on the server
-              POST- Used to create a new object on the server
-              DELETE - Used to remove an object on the server*/
-            StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-                    new Response.Listener<String>() {
-                        @Override
-                        public void onResponse(String response) throws JSONException {
-
-                            JSONObject user = new JSONObject(response);
-                            Log.d("STATE", "username: " + user.getString("username") + " password: " + user.getString("password")
-                            + " salt: " + user.getString("salt") + " email: " + user.getString("email"));
-                            //Log.d("STATE", "test");
-                        }
-                    }, new Response.ErrorListener() {
+            String url ="http://proj-309-sg-3.cs.iastate.edu/login.php";
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, url,new Response.Listener<String>(){
                 @Override
-                public void onErrorResponse(VolleyError error) {
-                    Log.d("STATE", "error");
+                public void onResponse(String response){
+                    if(response.equals("Login successful")){
+                        Intent navigationPage = new Intent(LoginActivity.this, NavigationActivity.class);
+                        startActivity(navigationPage);
+                    }
+                    else {
+                        Toast.makeText(LoginActivity.this, "Wrong username or password", Toast.LENGTH_LONG).show();
+                    }
                 }
-            });
-            queue.add(stringRequest);
+            }, new Response.ErrorListener(){
+                @Override
+                public void onErrorResponse(VolleyError error){
+                    Toast.makeText(LoginActivity.this, error.toString(), Toast.LENGTH_LONG).show();
+                }
+            }) {
 
+
+                @Override
+                protected Map<String,String> getParams(){
+                    Map<String,String> params = new HashMap<String,String>();
+                    params.put("password",password);//password
+                    params.put("password",username);//email
+                    return params;
+                }
+            };
+            queue.add(stringRequest);
         }
     }
 

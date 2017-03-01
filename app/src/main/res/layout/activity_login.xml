@@ -65,6 +65,7 @@
         android:layout_marginLeft="9dp"
         android:layout_weight="1"
         android:text="Login"
+        android:onClick="login"
         android:textStyle="bold"
         android:layout_below="@+id/password"
         android:layout_alignParentLeft="true"
