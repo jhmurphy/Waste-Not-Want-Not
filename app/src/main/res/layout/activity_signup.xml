@@ -84,7 +84,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="Sign up"
-        android:onClick="onClick"
+        android:onClick="signup"
         android:textStyle="bold"
         android:layout_marginTop="41dp"
         android:layout_below="@+id/password"

@@ -75,8 +75,6 @@ public class LoginActivity extends AppCompatActivity {
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
                 if (id == R.id.login || id == EditorInfo.IME_NULL) {
                     attemptLogin();
-                    Intent navigationPage = new Intent(LoginActivity.this, NavigationActivity.class);
-                    startActivity(navigationPage);
                     return true;
                 }
                 return false;
@@ -147,6 +145,7 @@ public class LoginActivity extends AppCompatActivity {
                     if(response.equals("Login successful")){
                         Intent navigationPage = new Intent(LoginActivity.this, NavigationActivity.class);
                         startActivity(navigationPage);
+                        Toast.makeText(LoginActivity.this, response, Toast.LENGTH_LONG).show();
                     }
                     else {
                         Toast.makeText(LoginActivity.this, "Wrong username or password", Toast.LENGTH_LONG).show();
@@ -164,7 +163,7 @@ public class LoginActivity extends AppCompatActivity {
                 protected Map<String,String> getParams(){
                     Map<String,String> params = new HashMap<String,String>();
                     params.put("password",password);//password
-                    params.put("password",username);//email
+                    params.put("username",username);//email
                     return params;
                 }
             };

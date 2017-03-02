@@ -60,7 +60,7 @@ public class SignupActivity extends AppCompatActivity {
 
     // UI references.
     private EditText name;
-    private EditText UserName;
+    private EditText username;
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
     private View mProgressView;
@@ -72,7 +72,7 @@ public class SignupActivity extends AppCompatActivity {
         setContentView(R.layout.activity_signup);
         // Set up the login form.
         name = (EditText) findViewById(R.id.name);
-        UserName = (EditText) findViewById(R.id.username);
+        username = (EditText) findViewById(R.id.username);
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
 
         mPasswordView = (EditText) findViewById(R.id.password);
@@ -90,15 +90,11 @@ public class SignupActivity extends AppCompatActivity {
         });
     }
 
-    public void onClick(View v){
+    public void signup(View v){
         attemptSignup();
     }
 
-    public void goToLogin(/*View view*/) {
-        /*
-        view parameter removed by Cory 2/23/17 for enabling it to be called easier
-        on response in attemptSignup
-         */
+    public void goToLogin() {
         Intent loginPage = new Intent(SignupActivity.this, LoginActivity.class);
         startActivity(loginPage);
     }
@@ -112,12 +108,14 @@ public class SignupActivity extends AppCompatActivity {
         // Reset errors.
         mEmailView.setError(null);
         mPasswordView.setError(null);
+        name.setError(null);
+        username.setError(null);
 
         // Store values at the time of the login attempt.
         final String email = mEmailView.getText().toString().trim();
         final String password = mPasswordView.getText().toString().trim();
         final String nm = name.getText().toString().trim();
-        final String un = UserName.getText().toString().trim();
+        final String un = username.getText().toString().trim();
 
         boolean cancel = false;
         View focusView = null;
@@ -146,8 +144,8 @@ public class SignupActivity extends AppCompatActivity {
 
         // check for valid username
         if(TextUtils.isEmpty(un)){
-            UserName.setError("This field is required");
-            focusView = UserName;
+            username.setError("This field is required");
+            focusView = username;
             cancel = true;
         }
 
@@ -162,17 +160,18 @@ public class SignupActivity extends AppCompatActivity {
         if (cancel) {
             focusView.requestFocus();
         } else {
+            RequestQueue queue = Volley.newRequestQueue(this);
             final String url ="http://proj-309-sg-3.cs.iastate.edu/signup.php";
-
-            /*GET - Used for basic read requests to the server
-              PUT- Used to modify an existing object on the server
-              POST- Used to create a new object on the server
-              DELETE - Used to remove an object on the server*/
             StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>(){
                 @Override
                 public void onResponse(String response){
-                    Toast.makeText(SignupActivity.this, response, Toast.LENGTH_LONG).show();
-                    goToLogin();
+                    if(response.equals("Signup Successful")) {
+                        Toast.makeText(SignupActivity.this, response, Toast.LENGTH_LONG).show();
+                        goToLogin();
+                    }
+                    else {
+                        Toast.makeText(SignupActivity.this, response, Toast.LENGTH_LONG).show();
+                    }
                 }
             }, new Response.ErrorListener(){
                 @Override
@@ -180,32 +179,46 @@ public class SignupActivity extends AppCompatActivity {
                     Toast.makeText(SignupActivity.this, error.toString(), Toast.LENGTH_LONG).show();
                 }
             }) {
-
-
                 @Override
                 protected Map<String,String> getParams(){
-                    Map<String,String> params = new HashMap<String,String>();
-                    params.put("name",nm);//name
+                    Map<String,String> params = new HashMap<String,String>();//name
                     params.put("username",un);//username
                     params.put("password",password);//password
                     params.put("email",email);//email
                     return params;
                 }
             };
-            RequestQueue queue = Volley.newRequestQueue(this);
             queue.add(stringRequest);
 
         }
     }
 
+    private boolean hasDomain(String email) {
+        if(!email.contains(".")) {
+            return false;
+        }
+        String end = email.split(".")[1];
+        switch(end) {
+            case "net":
+            case "edu":
+            case "gov":
+            case "co":
+            case "de":
+            case "ru":
+            case "be":
+            case "com":
+                return true;
+            default:
+                return false;
+        }
+    }
+
     private boolean isEmailValid(String email) {
-        //TODO: Replace this with your own logic
-        return email.contains("@");
+        return email.contains("@") && email.split("@").length == 2 && hasDomain(email);
     }
 
     private boolean isPasswordValid(String password) {
-        //TODO: Replace this with your own logic
-        return password.length() > 4;
+        return password.length() > 6;
     }
 }
 
