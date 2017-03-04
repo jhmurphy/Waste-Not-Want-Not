@@ -197,7 +197,7 @@ public class SignupActivity extends AppCompatActivity {
         if(!email.contains(".")) {
             return false;
         }
-        String end = email.split(".")[1];
+        String end = email.split("\\.")[1];
         switch(end) {
             case "net":
             case "edu":
