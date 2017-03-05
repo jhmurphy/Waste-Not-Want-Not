@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "571541949069",
+    "firebase_url": "https://wastenotwantnot-195ad.firebaseio.com",
+    "project_id": "wastenotwantnot-195ad",
+    "storage_bucket": "wastenotwantnot-195ad.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:571541949069:android:8968972e2a9c3cb7",
+        "android_client_info": {
+          "package_name": "com.team42.sg_3.wastenotwantnot"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "571541949069-qmh3mh7cd4np15geuuf6jqt7aobkugd8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC0IlbPAsDm76zzVRiWsqNl5eXEs0SvuMk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -88,6 +88,8 @@ public class SignupActivity extends AppCompatActivity {
                 return false;
             }
         });
+
+        Log.d("Shared Preferences", getSharedPreferences("firebase_info", MODE_PRIVATE).getString("reg_token", "token not found"));
     }
 
     public void signup(View v){
@@ -185,6 +187,8 @@ public class SignupActivity extends AppCompatActivity {
                     params.put("username",un);//username
                     params.put("password",password);//password
                     params.put("email",email);//email
+                    //need to signup and register this string to get push notifications
+                    //getSharedPreferences("firebase_info", MODE_PRIVATE).getString("reg_token", "token not found")
                     return params;
                 }
             };

@@ -88,6 +88,8 @@ public class LoginActivity extends AppCompatActivity {
                 attemptLogin();
             }
         });
+
+        //Log.d("Shared Preferences", getSharedPreferences("firebase_info", MODE_PRIVATE).getString("reg_token", "token not found"));
     }
 
     public void login(View view){

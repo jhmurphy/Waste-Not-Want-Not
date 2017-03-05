@@ -1,8 +1,12 @@
 package com.team42.sg_3.wastenotwantnot;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -88,6 +92,24 @@ public class DiscussionActivity extends AppCompatActivity implements View.OnClic
     @Override
     public void onClick(View v) {
         sendPost();
+    }
+
+    private void sendNotification(View view) {
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setContentTitle("Update Successful")
+                .setContentText("Your mom's events have been updated");
+
+        Intent resultIntent = new Intent(this, getClass());
+        PendingIntent resultPendingIntent = PendingIntent.getActivity(this, 0, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        mBuilder.setContentIntent(resultPendingIntent);
+        NotificationManager mNotifyMgr = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        mBuilder.setAutoCancel(true);
+        mNotifyMgr.notify(001, mBuilder.build());
+
+        Intent goToMain = new Intent(this, DiscussionActivity.class);
+        startActivity(goToMain);
     }
 
 }
