@@ -87,7 +87,7 @@ public class NavigationActivity extends AppCompatActivity
             Intent intent = new Intent(this, CalendarActivity.class);
             startActivity(intent);
             return true;
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.nav_discussion) {
             Intent intent = new Intent(this, DiscussionActivity.class);
             startActivity(intent);
             return true;
