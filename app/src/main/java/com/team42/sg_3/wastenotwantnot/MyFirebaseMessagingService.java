@@ -26,15 +26,15 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 .setContentTitle("FCM Notification")
                 .setContentText(remoteMessage.getNotification().getBody());
 
-        Intent resultIntent = new Intent(this, DiscussionActivity.class);
-        PendingIntent resultPendingIntent = PendingIntent.getActivity(this, 0, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        Intent resultIntent = new Intent(this, LoginActivity.class);
+        PendingIntent resultPendingIntent = PendingIntent.getActivity(this, 0, resultIntent, PendingIntent.FLAG_ONE_SHOT);
 
         mBuilder.setContentIntent(resultPendingIntent);
         NotificationManager mNotifyMgr = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         mBuilder.setAutoCancel(true);
         mNotifyMgr.notify(001, mBuilder.build());
 
-        Intent discussion = new Intent(this, DiscussionActivity.class);
+        Intent discussion = new Intent(this, LoginActivity.class);
         startActivity(discussion);
     }
 }
