@@ -92,10 +92,18 @@ public class SignupActivity extends AppCompatActivity {
         Log.d("Shared Preferences", getSharedPreferences("firebase_info", MODE_PRIVATE).getString("reg_token", "token not found"));
     }
 
+    /**
+     * Signup.
+     *
+     * @param v the v
+     */
     public void signup(View v){
         attemptSignup();
     }
 
+    /**
+     * Go to login.
+     */
     public void goToLogin() {
         Intent loginPage = new Intent(SignupActivity.this, LoginActivity.class);
         startActivity(loginPage);

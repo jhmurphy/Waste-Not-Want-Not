@@ -32,10 +32,19 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * The main home page for the Discussion Board module of the app
+ */
 public class DiscussionActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String URL = "http://proj-309-sg-3.cs.iastate.edu/DiscussionBoard.php";
+    /**
+     * The constant KEY_USERNAME.
+     */
     public static final String KEY_USERNAME = "username";
+    /**
+     * The constant KEY_POST.
+     */
     public static final String KEY_POST = "post";
 
     private EditText editTextUsername;
@@ -44,6 +53,10 @@ public class DiscussionActivity extends AppCompatActivity implements View.OnClic
     private Button buttonRegister;
 
 
+    /**
+     * @param savedInstanceState
+     * This sets up the instance of this activity
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,6 +71,9 @@ public class DiscussionActivity extends AppCompatActivity implements View.OnClic
 
     }
 
+    /**
+     * Sends the username and the post text to the server to store into the database
+     */
     private void sendPost() {
         final String username = editTextUsername.getText().toString().trim();
         final String post = editTextPost.getText().toString().trim();
@@ -89,27 +105,14 @@ public class DiscussionActivity extends AppCompatActivity implements View.OnClic
         requestQueue.add(stringRequest);
     }
 
+    /**
+     * Called by the button to start the process of sending the post to the server
+     * @param v current view
+     */
     @Override
     public void onClick(View v) {
         sendPost();
     }
 
-    private void sendNotification(View view) {
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
-                .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentTitle("Update Successful")
-                .setContentText("Your mom's events have been updated");
-
-        Intent resultIntent = new Intent(this, getClass());
-        PendingIntent resultPendingIntent = PendingIntent.getActivity(this, 0, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        mBuilder.setContentIntent(resultPendingIntent);
-        NotificationManager mNotifyMgr = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        mBuilder.setAutoCancel(true);
-        mNotifyMgr.notify(001, mBuilder.build());
-
-        Intent goToMain = new Intent(this, DiscussionActivity.class);
-        startActivity(goToMain);
-    }
 
 }

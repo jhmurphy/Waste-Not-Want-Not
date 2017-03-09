@@ -5,10 +5,21 @@ import android.os.Bundle;
 import android.widget.CalendarView;
 import android.widget.Toast;
 
+/**
+ * The main homepage for the users event and calendar information
+ */
 public class CalendarActivity extends AppCompatActivity {
 
+    /**
+     * The Calendar.
+     */
     CalendarView calendar;
 
+    /**
+     * Not much now, but this is in place to setup the
+     * necessary information on a new instance of this activity
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -52,7 +52,7 @@ import java.util.Map;
 import static android.Manifest.permission.READ_CONTACTS;
 
 /**
- * A login screen that offers login via email/password.
+ * A UI used to login the user with their username and password
  */
 public class LoginActivity extends AppCompatActivity {
 
@@ -62,6 +62,10 @@ public class LoginActivity extends AppCompatActivity {
     private View mProgressView;
     private View mLoginFormView;
 
+    /**
+     * @param savedInstanceState
+     * This sets up the instance of this activity
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,11 +96,19 @@ public class LoginActivity extends AppCompatActivity {
         //Log.d("Shared Preferences", getSharedPreferences("firebase_info", MODE_PRIVATE).getString("reg_token", "token not found"));
     }
 
+    /**
+     * Called by the login to start the login process
+     * @param view the view
+     */
     public void login(View view){
         attemptLogin();
     }
 
 
+    /**
+     * Navigates to the signup page
+     * @param view the current view
+     */
     public void goToSignup(View view) {
         Intent signupPage = new Intent(LoginActivity.this, SignupActivity.class);
         startActivity(signupPage);

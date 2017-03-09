@@ -11,11 +11,14 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
 /**
- * Created by Carter on 3/4/2017.
+ * This class is used to encapsulate functionality when a push notification is received from the server
  */
-
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
+    /**
+     * Recieves a message and sends a notification to the user depending on what the message is
+     * @param remoteMessage from the server/Firebase
+     */
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         /*Log.d(TAG, "From: " + remoteMessage.getFrom());
