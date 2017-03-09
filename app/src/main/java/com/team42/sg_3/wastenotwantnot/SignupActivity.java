@@ -196,7 +196,7 @@ public class SignupActivity extends AppCompatActivity {
                     params.put("password",password);//password
                     params.put("email",email);//email
                     //need to signup and register this string to get push notifications
-                    //getSharedPreferences("firebase_info", MODE_PRIVATE).getString("reg_token", "token not found")
+                    params.put("fcm_token", getSharedPreferences("firebase_info", MODE_PRIVATE).getString("reg_token", "token not found"));
                     return params;
                 }
             };

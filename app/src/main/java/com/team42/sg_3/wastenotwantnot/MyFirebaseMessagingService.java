@@ -21,13 +21,11 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
      */
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
-        /*Log.d(TAG, "From: " + remoteMessage.getFrom());
-        Log.d(TAG, "Message data payload: " + remoteMessage.getData());*/
 
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentTitle("FCM Notification")
-                .setContentText(remoteMessage.getNotification().getBody());
+                .setContentTitle(remoteMessage.getData().get("title"))
+                .setContentText(remoteMessage.getData().get("body"));
 
         Intent resultIntent = new Intent(this, LoginActivity.class);
         PendingIntent resultPendingIntent = PendingIntent.getActivity(this, 0, resultIntent, PendingIntent.FLAG_ONE_SHOT);
