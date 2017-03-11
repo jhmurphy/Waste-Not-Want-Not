@@ -1,9 +1,14 @@
 package com.team42.sg_3.wastenotwantnot;
 
+import android.annotation.TargetApi;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.usage.UsageStats;
+import android.app.usage.UsageStatsManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.NotificationCompat;
@@ -30,8 +35,11 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
 
 /**
  * The main home page for the Discussion Board module of the app
@@ -59,6 +67,7 @@ public class DiscussionActivity extends AppCompatActivity implements View.OnClic
      * This sets up the instance of this activity
      */
     @Override
+    @TargetApi(22)
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_discussion);
@@ -69,6 +78,11 @@ public class DiscussionActivity extends AppCompatActivity implements View.OnClic
         buttonRegister = (Button) findViewById(R.id.buttonSubmit);
 
         buttonRegister.setOnClickListener(this);
+
+        if (AppUsageStatistics.getUsageStatsList(this).isEmpty()){
+            Intent intent = new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS);
+            startActivity(intent);
+        }
 
     }
 
@@ -111,7 +125,9 @@ public class DiscussionActivity extends AppCompatActivity implements View.OnClic
      * @param v current view
      */
     @Override
+    @TargetApi(22)
     public void onClick(View v) {
+        //AppUsageStatistics.printCurrentUsageStatus(this);
         sendPost();
     }
 

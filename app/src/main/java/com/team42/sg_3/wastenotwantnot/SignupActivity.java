@@ -63,8 +63,6 @@ public class SignupActivity extends AppCompatActivity {
     private EditText username;
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
-    private View mProgressView;
-    private View mLoginFormView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,9 +91,8 @@ public class SignupActivity extends AppCompatActivity {
     }
 
     /**
-     * Signup.
-     *
-     * @param v the v
+     * Starts the signup process
+     * @param v the view
      */
     public void signup(View v){
         attemptSignup();
