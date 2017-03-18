@@ -1,6 +1,7 @@
 package com.team42.sg_3.wastenotwantnot;
 
 import android.annotation.TargetApi;
+import android.app.ActivityManager;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.usage.UsageStats;
@@ -39,6 +40,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 
 /**
@@ -128,8 +130,14 @@ public class DiscussionActivity extends AppCompatActivity implements View.OnClic
     @TargetApi(22)
     public void onClick(View v) {
         //AppUsageStatistics.printCurrentUsageStatus(this);
-        sendPost();
+
+        //sendPost();
+
+        //part to get access to app locking capabilities
+
     }
+
+
 
 
 }
