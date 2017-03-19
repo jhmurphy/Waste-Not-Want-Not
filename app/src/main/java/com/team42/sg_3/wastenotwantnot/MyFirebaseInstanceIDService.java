@@ -1,4 +1,5 @@
 package com.team42.sg_3.wastenotwantnot;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
 
@@ -18,5 +19,8 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
         SharedPreferences.Editor editor = getSharedPreferences("firebase_info", MODE_PRIVATE).edit();
         editor.putString("reg_token", FirebaseInstanceId.getInstance().getToken());
         editor.commit();
+
+        //since this happens on install and only once, this is a good place to do initial setup
+        startService(new Intent(this, MyAppListener.class));
     }
 }

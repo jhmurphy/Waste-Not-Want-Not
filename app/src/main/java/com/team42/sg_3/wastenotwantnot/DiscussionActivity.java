@@ -129,12 +129,7 @@ public class DiscussionActivity extends AppCompatActivity implements View.OnClic
     @Override
     @TargetApi(22)
     public void onClick(View v) {
-        //AppUsageStatistics.printCurrentUsageStatus(this);
-
-        //sendPost();
-
-        //part to get access to app locking capabilities
-
+        sendPost();
     }
 
 
