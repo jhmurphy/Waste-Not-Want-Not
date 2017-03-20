@@ -16,9 +16,9 @@ if ($conn->connect_error) {
 
 if($_SERVER['REQUEST_METHOD']=='POST'){
  	$username = $_POST['username'];
- 	$post_content = $_POST['post'];
- 	$query = "INSERT INTO Posts (ThreadID, Username, PostName, PostContent) VALUES (NULL, '$username', 'test', '$post_content')";
+ 	$query = "SELECT * FROM Threads";
 	$result = $conn->query($query) or die("error making request");
+	$data = mysqli_fetch_row($result);
 	
 	$query = "SELECT fcm_token FROM Users WHERE username = 'cscheve'";
 	$result = $conn->query($query) or die("error making request");
@@ -53,10 +53,10 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 	curl_close($curl_session);
 
 	if($result){
-		echo "Content Posted Successfully";
+		echo json_encode($data);
 	}
 	else{
-		echo "Could Not Post Content";
+		echo "Failed";
 	}
  }
 

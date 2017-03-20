@@ -8,6 +8,7 @@ import android.app.usage.UsageStats;
 import android.app.usage.UsageStatsManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.design.widget.FloatingActionButton;
@@ -20,8 +21,10 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -29,13 +32,16 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -58,8 +64,8 @@ public class DiscussionActivity extends AppCompatActivity implements View.OnClic
      */
     public static final String KEY_POST = "post";
 
-    private EditText editTextUsername;
-    private EditText editTextPost;
+    private String Username;
+    private JSONArray jsonArray;
 
     private Button buttonRegister;
 
@@ -74,12 +80,20 @@ public class DiscussionActivity extends AppCompatActivity implements View.OnClic
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_discussion);
 
-        editTextUsername = (EditText) findViewById(R.id.editTextUsername);
-        editTextPost = (EditText) findViewById(R.id.editTextPost);
+        //editTextUsername = (EditText) findViewById(R.id.editTextUsername);
+        //editTextPost = (EditText) findViewById(R.id.editTextPost);
 
-        buttonRegister = (Button) findViewById(R.id.buttonSubmit);
+        //buttonRegister = (Button) findViewById(R.id.buttonSubmit);
 
-        buttonRegister.setOnClickListener(this);
+        //buttonRegister.setOnClickListener(this);
+        sendPost();
+        String[] stringArray = {"Thread1", "Thread2"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, stringArray);
+        ListView lv = (ListView)findViewById(R.id.listView);
+        lv.setAdapter(adapter);
+        SharedPreferences userDetails = getSharedPreferences("userDetails", MODE_PRIVATE);
+        Username = userDetails.getString("username", "");
+
 
         if (AppUsageStatistics.getUsageStatsList(this).isEmpty()){
             Intent intent = new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS);
@@ -92,14 +106,14 @@ public class DiscussionActivity extends AppCompatActivity implements View.OnClic
      * Sends the username and the post text to the server to store into the database
      */
     private void sendPost() {
-        final String username = editTextUsername.getText().toString().trim();
-        final String post = editTextPost.getText().toString().trim();
+        final String username = Username;
 
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, URL,
-                new Response.Listener<String>() {
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.POST, URL, null,
+                new Response.Listener<JSONArray>() {
                     @Override
-                    public void onResponse(String response) {
-                        Toast.makeText(DiscussionActivity.this,response,Toast.LENGTH_LONG).show();
+                    public void onResponse(JSONArray response) {
+                        jsonArray = response;
+                        Toast.makeText(DiscussionActivity.this,response.toString(),Toast.LENGTH_LONG).show();
                     }
                 },
                 new Response.ErrorListener() {
@@ -112,14 +126,13 @@ public class DiscussionActivity extends AppCompatActivity implements View.OnClic
             protected Map<String,String> getParams(){
                 Map<String,String> params = new HashMap<String, String>();
                 params.put(KEY_USERNAME,username);
-                params.put(KEY_POST,post);
                 return params;
             }
 
         };
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
-        requestQueue.add(stringRequest);
+        requestQueue.add(jsonArrayRequest);
     }
 
     /**
@@ -129,7 +142,7 @@ public class DiscussionActivity extends AppCompatActivity implements View.OnClic
     @Override
     @TargetApi(22)
     public void onClick(View v) {
-        sendPost();
+
     }
 
 

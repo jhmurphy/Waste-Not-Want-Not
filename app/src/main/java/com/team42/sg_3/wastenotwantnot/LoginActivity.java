@@ -4,7 +4,9 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
@@ -199,6 +201,10 @@ public class LoginActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(String response){
                     if(response.equals("Login successful")){
+                        SharedPreferences sharedpreferences = getSharedPreferences("userDetails", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedpreferences.edit();
+                        editor.putString("username", username);
+                        editor.commit();
                         Intent navigationPage = new Intent(LoginActivity.this, NavigationActivity.class);
                         startActivity(navigationPage);
                         Toast.makeText(LoginActivity.this, response, Toast.LENGTH_LONG).show();
