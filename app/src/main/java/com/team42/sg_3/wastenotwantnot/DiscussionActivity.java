@@ -154,7 +154,13 @@ public class DiscussionActivity extends AppCompatActivity implements View.OnClic
 
     }
 
-
+    /**
+     * Takes user to create a new thread
+     */
+    public void goToNewThread(View view){
+        Intent intent = new Intent(DiscussionActivity.this, newThreadActivity.class);
+        startActivity(intent);
+    }
 
 
 }
