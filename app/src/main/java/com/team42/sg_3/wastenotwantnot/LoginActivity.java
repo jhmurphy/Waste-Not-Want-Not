@@ -113,23 +113,6 @@ public class LoginActivity extends AppCompatActivity {
                     })
                     .setIcon(android.R.drawable.ic_dialog_alert)
                     .show();
-            new AlertDialog.Builder(this)
-                    .setTitle("Add Permissions")
-                    .setMessage("Would you like to allow this app to lock out other apps?\n" +
-                            "Note: this is optional and can be turned off at any time in the settings")
-                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            Intent intent = new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS);
-                            startActivity(intent);
-                        }
-                    })
-                    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            // do nothing
-                        }
-                    })
-                    .setIcon(android.R.drawable.ic_dialog_alert)
-                    .show();
         }
         //AppUsageStatistics.onAccessEvent(this);
         //AppUsageStatistics.printCurrentUsageStatus(this);
@@ -152,7 +135,7 @@ public class LoginActivity extends AppCompatActivity {
     public void goToSignup(View view) {
         Intent signupPage = new Intent(LoginActivity.this, SignupActivity.class);
         startActivity(signupPage);
-        //startService(new Intent(this, MyAppListener.class));
+        stopService(new Intent(this, MyAppListener.class));
 
     }
 
