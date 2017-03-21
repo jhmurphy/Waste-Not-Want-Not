@@ -2,19 +2,25 @@ package com.team42.sg_3.wastenotwantnot;
 
 import android.accessibilityservice.AccessibilityService;
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.app.ActivityManager;
+import android.app.AlertDialog;
 import android.app.usage.UsageEvents;
 import android.app.usage.UsageStats;
 import android.app.usage.UsageStatsManager;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.ApplicationInfo;
+import android.os.Handler;
+import android.os.Looper;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.accessibility.AccessibilityEvent;
 
+import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
@@ -23,6 +29,7 @@ import java.util.TimerTask;
 import java.util.TreeMap;
 
 import static android.content.Context.ACTIVITY_SERVICE;
+import static android.support.v4.content.ContextCompat.startActivity;
 
 /**
  * Used for enumerating usage statistics for the app
@@ -32,8 +39,9 @@ import static android.content.Context.ACTIVITY_SERVICE;
 public class AppUsageStatistics {
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("M-d-yyyy HH:mm:ss");
     public static final String TAG = AppUsageStatistics.class.getSimpleName();
-    /*private static String currentApp = "";
-    private static String[] mostUsedApps = new String[10];*/
+    private static Timer timer = null;
+    private static String currentApp = "";
+    //private static String[] mostUsedApps = new String[10];
     @SuppressWarnings("ResourceType")
     @TargetApi(22)
     public static void getStats(Context context){
@@ -164,19 +172,62 @@ public class AppUsageStatistics {
     }
 
     //functionality will be used later for getting the foreground app in the app listener service
-   /* public static void onAccessEvent(Context context) {
+    public static void startForegroundListener(Context context) {
         final Context c = context;
         Timer timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
             public void run() {
                 String foreground = getForegroundApp(c);
                 if(!currentApp.equals(foreground)) {
-                    Log.d(TAG, "Current App has changed to " + foreground);
-                    currentApp = foreground;
+                    if(!foreground.contains("android")) {
+                        lockoutApp(c, foreground);
+                    }
+                    else {
+                        Log.d(TAG, "Current App has changed to " + foreground);
+                        currentApp = foreground;
+                    }
+
                 }
             }
         }, 0, 1000);
-    }*/
+    }
+
+    public static void stopForegroundListener() {
+        timer.cancel();
+        timer.purge();
+    }
+
+    private static void lockoutApp(Context context, String foregroundApp) {
+        final Context c = context;
+        Intent startHomescreen=new Intent(Intent.ACTION_MAIN);
+        startHomescreen.addCategory(Intent.CATEGORY_HOME);
+        startHomescreen.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(context, startHomescreen, null);
+        currentApp = getForegroundApp(context);
+
+
+
+        /*new AlertDialog.Builder(context)
+                .setTitle("App Blocker")
+                .setMessage("This app (" + foregroundApp + ") has been blocked by Waste Not Want Not\n" +
+                        "Certain apps cannot be used during productive hours\n" +
+                        "Would you like to change this in the settings?")
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent(c, AppCompatPreferenceActivity.class);
+                        startActivity(c, intent, null);
+                    }
+                })
+                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // do nothing
+                    }
+                })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();*/
+
+
+    }
 
 
 }
