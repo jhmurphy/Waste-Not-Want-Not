@@ -65,7 +65,7 @@ public class DiscussionActivity extends AppCompatActivity implements View.OnClic
     public static final String KEY_POST = "post";
 
     private String Username;
-    private JSONArray jsonArray;
+    private ArrayList<String> items;
 
     private Button buttonRegister;
 
@@ -86,13 +86,44 @@ public class DiscussionActivity extends AppCompatActivity implements View.OnClic
         //buttonRegister = (Button) findViewById(R.id.buttonSubmit);
 
         //buttonRegister.setOnClickListener(this);
-        sendPost();
-        String[] stringArray = {"Thread1", "Thread2"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, stringArray);
-        ListView lv = (ListView)findViewById(R.id.listView);
-        lv.setAdapter(adapter);
         SharedPreferences userDetails = getSharedPreferences("userDetails", MODE_PRIVATE);
         Username = userDetails.getString("username", "");
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.POST, URL, null,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        items = new ArrayList<String>();
+                        for(int i=0; i < response.length(); i++){
+                            try {
+                                items.add(response.getString(i));
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        String[] stringArray = new String[items.size()];
+                        items.toArray(stringArray);
+                        ArrayAdapter<String> adapter = new ArrayAdapter<String>(DiscussionActivity.this, android.R.layout.simple_list_item_1, stringArray);
+                        ListView lv = (ListView)findViewById(R.id.listView);
+                        lv.setAdapter(adapter);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(DiscussionActivity.this,error.toString(),Toast.LENGTH_LONG).show();
+                    }
+                }){
+            @Override
+            protected Map<String,String> getParams(){
+                Map<String,String> params = new HashMap<String, String>();
+                params.put(KEY_USERNAME,Username);
+                return params;
+            }
+
+        };
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(jsonArrayRequest);
+
 
 
         if (AppUsageStatistics.getUsageStatsList(this).isEmpty()){
@@ -108,31 +139,9 @@ public class DiscussionActivity extends AppCompatActivity implements View.OnClic
     private void sendPost() {
         final String username = Username;
 
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.POST, URL, null,
-                new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(JSONArray response) {
-                        jsonArray = response;
-                        Toast.makeText(DiscussionActivity.this,response.toString(),Toast.LENGTH_LONG).show();
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(DiscussionActivity.this,error.toString(),Toast.LENGTH_LONG).show();
-                    }
-                }){
-            @Override
-            protected Map<String,String> getParams(){
-                Map<String,String> params = new HashMap<String, String>();
-                params.put(KEY_USERNAME,username);
-                return params;
-            }
 
-        };
 
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        requestQueue.add(jsonArrayRequest);
+
     }
 
     /**
