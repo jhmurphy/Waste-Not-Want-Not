@@ -74,7 +74,7 @@ public class newThreadActivity extends AppCompatActivity{
     /**
      * Handles user submitting new thread
      */
-    public void onClick(){
+    public void onSubmit(View view){
 
         final String threadName = ThreadTitle.toString().trim();
         final String threadDescription = ThreadDesc.toString();
@@ -109,15 +109,19 @@ public class newThreadActivity extends AppCompatActivity{
                 @Override
                 protected Map<String,String> getParams(){
                     Map<String,String> params = new HashMap<String,String>();
-                    params.put("username","To be added");
                     params.put("name",threadName);
                     params.put("description",threadDescription);
-                    params.put("ID","Add threadID");
+                    params.put("user", "Testing");
                     return params;
                 }
             };
 
         }
+    }
+
+    public void onCancel(View view){
+        Intent in = new Intent(newThreadActivity.this, DiscussionActivity.class);
+        startActivity(in);
     }
 
 }
