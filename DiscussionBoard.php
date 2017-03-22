@@ -18,7 +18,10 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
  	$username = $_POST['username'];
  	$query = "SELECT * FROM Threads";
 	$result = $conn->query($query) or die("error making request");
-	$data = mysqli_fetch_row($result);
+	$data = array();
+	while ($row = mysqli_fetch_assoc($result)) {
+		$data[] = $row['ThreadName'];
+	}
 	
 	$query = "SELECT fcm_token FROM Users WHERE username = 'cscheve'";
 	$result = $conn->query($query) or die("error making request");

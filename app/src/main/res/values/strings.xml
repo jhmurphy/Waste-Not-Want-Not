@@ -95,4 +95,5 @@
 
     <string name="pref_title_vibrate">Vibrate</string>
     <string name="title_activity_signup">Sign Up Here</string>
+    <string name="title_activity_post_view">PostViewActivity</string>
 </resources>

@@ -3,6 +3,7 @@ package com.team42.sg_3.wastenotwantnot;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -59,6 +60,7 @@ import java.util.Map;
 public class newThreadActivity extends AppCompatActivity{
     private EditText ThreadTitle;
     private EditText ThreadDesc;
+    private String Username;
     //private View SubmitButton;
 
     @Override
@@ -75,6 +77,8 @@ public class newThreadActivity extends AppCompatActivity{
                 trySubmit();
             }
         });
+        SharedPreferences userDetails = getSharedPreferences("userDetails", MODE_PRIVATE);
+        Username = userDetails.getString("username", "");
     }
 
     public void onSubmit(View view){
@@ -99,13 +103,13 @@ public class newThreadActivity extends AppCompatActivity{
             StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) throws JSONException {
-                    if(response.contains("thread successful")){
+                    if(response.equals("thread successful")){
                         Toast.makeText(newThreadActivity.this, response, Toast.LENGTH_LONG).show();
                         /*Back to threads*/
                         Intent discussionPage = new Intent(newThreadActivity.this, DiscussionActivity.class);
                         startActivity(discussionPage);
                     }else{
-                        Toast.makeText(newThreadActivity.this, "An error occurred", Toast.LENGTH_LONG).show();
+                        Toast.makeText(newThreadActivity.this, response, Toast.LENGTH_LONG).show();
                     }
                 }
             }, new Response.ErrorListener(){
@@ -121,7 +125,7 @@ public class newThreadActivity extends AppCompatActivity{
                     Map<String,String> params = new HashMap<String,String>();
                     params.put("name",threadName);
                     params.put("description",threadDescription);
-                    params.put("user", "Testing"); //TODO: Incorporate session for username
+                    params.put("user", Username);
                     return params;
                 }
             };
