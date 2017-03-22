@@ -59,7 +59,7 @@ import java.util.Map;
 public class newThreadActivity extends AppCompatActivity{
     private EditText ThreadTitle;
     private EditText ThreadDesc;
-    private View SubmitButton;
+    //private View SubmitButton;
 
     @Override
     public void onCreate(Bundle savedInstanceState){
@@ -68,16 +68,26 @@ public class newThreadActivity extends AppCompatActivity{
 
         ThreadTitle = (EditText) findViewById(R.id.threadName);
         ThreadDesc = (EditText) findViewById(R.id.threadDescription);
-        SubmitButton = (View) findViewById(R.id.submitThread);
+        Button SubmitButton = (Button) findViewById(R.id.submitThread);
+        SubmitButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                trySubmit();
+            }
+        });
+    }
+
+    public void onSubmit(View view){
+        trySubmit();
     }
 
     /**
      * Handles user submitting new thread
      */
-    public void onSubmit(View view){
+    public void trySubmit(){
 
-        final String threadName = ThreadTitle.toString().trim();
-        final String threadDescription = ThreadDesc.toString();
+        final String threadName = ThreadTitle.getText().toString().trim();
+        final String threadDescription = ThreadDesc.getText().toString();
 
         if(threadName.equals("")){
             View focusView = ThreadTitle;
@@ -89,7 +99,7 @@ public class newThreadActivity extends AppCompatActivity{
             StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) throws JSONException {
-                    if(response.equals("thread successful")){
+                    if(response.contains("thread successful")){
                         Toast.makeText(newThreadActivity.this, response, Toast.LENGTH_LONG).show();
                         /*Back to threads*/
                         Intent discussionPage = new Intent(newThreadActivity.this, DiscussionActivity.class);
@@ -111,11 +121,11 @@ public class newThreadActivity extends AppCompatActivity{
                     Map<String,String> params = new HashMap<String,String>();
                     params.put("name",threadName);
                     params.put("description",threadDescription);
-                    params.put("user", "Testing");
+                    params.put("user", "Testing"); //TODO: Incorporate session for username
                     return params;
                 }
             };
-
+            queue.add(request);
         }
     }
 
