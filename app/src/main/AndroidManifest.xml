@@ -8,19 +8,11 @@
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission
         android:name="android.permission.PACKAGE_USAGE_STATS"
         tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
-    <uses-permission
-        android:name="android.permission.WRITE_SECURE_SETTINGS"
-        tools:ignore="ProtectedPermissions" />
-    <uses-permission android:name="android.permission.READ_CALENDAR" />
-    <uses-permission android:name="android.permission.WRITE_CALENDAR" />
-
-    <android:uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <android:uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <android:uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -49,6 +41,9 @@
             android:name=".SignupActivity"
             android:label="@string/title_activity_signup" />
         <activity
+            android:name=".AppBlockingActivity"
+            android:label="App Blocking Functionality" />
+        <activity
             android:name=".DiscussionActivity"
             android:label="Discussion" />
         <activity
@@ -66,7 +61,6 @@
             </intent-filter>
         </service>
         <service android:name=".MyAppListener" />
-
         <activity
             android:name=".PostViewActivity"
             android:label="Posts" />
@@ -74,6 +68,11 @@
             android:name=".event"
             android:label="@string/title_activity_event"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:name=".newPostActivity"
+            android:label="Create New Post " />
+        <activity
+            android:name=".SinglePostActivity"
+            android:label="Post" />
     </application>
 
 </manifest>

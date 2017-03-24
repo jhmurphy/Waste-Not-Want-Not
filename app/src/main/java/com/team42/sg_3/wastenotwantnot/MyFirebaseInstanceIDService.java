@@ -21,6 +21,6 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
         editor.commit();
 
         //since this happens on install and only once, this is a good place to do initial setup
-        startService(new Intent(this, MyAppListener.class));
+        //startService(new Intent(this, MyAppListener.class));
     }
 }

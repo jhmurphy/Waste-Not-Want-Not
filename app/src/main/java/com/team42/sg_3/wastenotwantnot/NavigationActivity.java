@@ -98,7 +98,9 @@ public class NavigationActivity extends AppCompatActivity
             startActivity(intent);
             return true;
         } else if (id == R.id.nav_slideshow) {
-
+            Intent intent = new Intent(this, AppBlockingActivity.class);
+            startActivity(intent);
+            return true;
         } else if (id == R.id.nav_manage) {
 
         } else if (id == R.id.nav_share) {
