@@ -9,49 +9,49 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.team42.sg_3.wastenotwantnot.newThreadActivity">
+    tools:context="com.team42.sg_3.wastenotwantnot.newPostActivity">
 
     <Button
-        android:id="@+id/submitThread"
+        android:id="@+id/submitPost"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text = "Submit New Thread"
+        android:text = "Submit New Post"
         android:onClick="onSubmit"
-        android:layout_alignBaseline="@+id/cancelThread"
-        android:layout_alignBottom="@+id/cancelThread"
-        android:layout_toLeftOf="@+id/cancelThread"
-        android:layout_toStartOf="@+id/cancelThread"
+        android:layout_alignBaseline="@+id/cancelPost"
+        android:layout_alignBottom="@+id/cancelPost"
+        android:layout_toLeftOf="@+id/cancelPost"
+        android:layout_toStartOf="@+id/cancelPost"
         android:layout_marginRight="19dp"
         android:layout_marginEnd="19dp" />
 
     <Button
-        android:id="@+id/cancelThread"
+        android:id="@+id/cancelPost"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text = "Cancel"
         android:onClick="onCancel"
         android:layout_marginTop="70dp"
-        android:layout_below="@+id/threadDescription"
+        android:layout_below="@+id/postDescription"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_marginRight="48dp"
         android:layout_marginEnd="48dp" />
 
     <EditText
-        android:id="@+id/threadDescription"
+        android:id="@+id/postDescription"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Thread description"
+        android:hint="Post content"
         android:layout_marginTop="48dp"
-        android:layout_below="@+id/threadName"
+        android:layout_below="@+id/postName"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
     <EditText
-        android:id="@+id/threadName"
+        android:id="@+id/postName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Thread Name"
+        android:hint="Post Name"
 
         android:singleLine="true"
         style="@android:style/Widget.AutoCompleteTextView"

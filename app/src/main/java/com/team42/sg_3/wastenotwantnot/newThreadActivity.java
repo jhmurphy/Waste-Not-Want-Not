@@ -3,6 +3,7 @@ package com.team42.sg_3.wastenotwantnot;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -59,7 +60,8 @@ import java.util.Map;
 public class newThreadActivity extends AppCompatActivity{
     private EditText ThreadTitle;
     private EditText ThreadDesc;
-    private View SubmitButton;
+    private String Username;
+    //private View SubmitButton;
 
     @Override
     public void onCreate(Bundle savedInstanceState){
@@ -68,16 +70,28 @@ public class newThreadActivity extends AppCompatActivity{
 
         ThreadTitle = (EditText) findViewById(R.id.threadName);
         ThreadDesc = (EditText) findViewById(R.id.threadDescription);
-        SubmitButton = (View) findViewById(R.id.submitThread);
+        Button SubmitButton = (Button) findViewById(R.id.submitThread);
+        SubmitButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                trySubmit();
+            }
+        });
+        SharedPreferences userDetails = getSharedPreferences("userDetails", MODE_PRIVATE);
+        Username = userDetails.getString("username", "");
+    }
+
+    public void onSubmit(View view){
+        trySubmit();
     }
 
     /**
      * Handles user submitting new thread
      */
-    public void onSubmit(View view){
+    public void trySubmit(){
 
-        final String threadName = ThreadTitle.toString().trim();
-        final String threadDescription = ThreadDesc.toString();
+        final String threadName = ThreadTitle.getText().toString().trim();
+        final String threadDescription = ThreadDesc.getText().toString();
 
         if(threadName.equals("")){
             View focusView = ThreadTitle;
@@ -95,7 +109,7 @@ public class newThreadActivity extends AppCompatActivity{
                         Intent discussionPage = new Intent(newThreadActivity.this, DiscussionActivity.class);
                         startActivity(discussionPage);
                     }else{
-                        Toast.makeText(newThreadActivity.this, "An error occurred", Toast.LENGTH_LONG).show();
+                        Toast.makeText(newThreadActivity.this, response, Toast.LENGTH_LONG).show();
                     }
                 }
             }, new Response.ErrorListener(){
@@ -111,11 +125,11 @@ public class newThreadActivity extends AppCompatActivity{
                     Map<String,String> params = new HashMap<String,String>();
                     params.put("name",threadName);
                     params.put("description",threadDescription);
-                    params.put("user", "Testing");
+                    params.put("user", Username);
                     return params;
                 }
             };
-
+            queue.add(request);
         }
     }
 

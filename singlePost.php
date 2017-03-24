@@ -12,17 +12,19 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }	
 if($_SERVER['REQUEST_METHOD']=='POST'){
-	$user = $_POST['user'];
-	$title = $_POST['name'];
-	$desc = $_POST['description'];
-
-	$query = "INSERT INTO Threads (ThreadName, ThreadDescription, Username) VALUES ('$title', '$desc', '$user')";
+	$PostName = $_GET['selected'];
+	$query = "SELECT * FROM Posts where PostName = '$PostName'";
 	$result = $conn->query($query) or die("error making request");
-
+	$data = array();
+	while ($row = mysqli_fetch_assoc($result)) {
+		$data[] = $row['PostName'];
+		$data[] = $row['PostContent'];
+	}
+	//$data[] = "does this work";
 	if($result){
-		echo "thread successful";
+		echo json_encode($data);
 	}else{
-		echo "thread failed";
+		echo "failed";
 	}
 
 }

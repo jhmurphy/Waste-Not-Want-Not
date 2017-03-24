@@ -10,6 +10,13 @@
     <uses-permission
         android:name="android.permission.PACKAGE_USAGE_STATS"
         tools:ignore="ProtectedPermissions" />
+<<<<<<< HEAD
+=======
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission
+        android:name="android.permission.WRITE_SECURE_SETTINGS"
+        tools:ignore="ProtectedPermissions" />
+>>>>>>> b8ab1b7d67c7323010613902b205c499e53db434
 
     <application
         android:allowBackup="true"
@@ -37,9 +44,12 @@
         <activity
             android:name=".SignupActivity"
             android:label="@string/title_activity_signup" />
+<<<<<<< HEAD
         <activity
             android:name=".AppBlockingActivity"
             android:label="App Blocking Functionality" />
+=======
+>>>>>>> b8ab1b7d67c7323010613902b205c499e53db434
         <activity
             android:name=".DiscussionActivity"
             android:label="Discussion" />
@@ -59,7 +69,19 @@
         </service>
         <service android:name=".MyAppListener" />
 
+<<<<<<< HEAD
         <activity android:name=".AppBlockingActivity"></activity>
+=======
+        <activity
+            android:name=".PostViewActivity"
+            android:label="Posts" />
+        <activity
+            android:name=".newPostActivity"
+            android:label="Create New Post " />
+        <activity
+            android:name=".SinglePostActivity"
+            android:label="Post" />
+>>>>>>> b8ab1b7d67c7323010613902b205c499e53db434
     </application>
 
 </manifest>
