@@ -61,8 +61,13 @@
 
         <activity
             android:name=".PostViewActivity"
-            android:label="Posts"
-            />
+            android:label="Posts" />
+        <activity
+            android:name=".newPostActivity"
+            android:label="Create New Post " />
+        <activity
+            android:name=".SinglePostActivity"
+            android:label="Post" />
     </application>
 
 </manifest>

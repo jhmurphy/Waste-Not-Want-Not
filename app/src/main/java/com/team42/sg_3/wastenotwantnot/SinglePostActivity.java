@@ -29,19 +29,17 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class PostViewActivity extends AppCompatActivity {
+public class SinglePostActivity extends AppCompatActivity {
 
-    private String Username;
-    private ArrayList<String> items;
-    private String item;
     private String selectedItem;
-    private String URL = "http://proj-309-sg-3.cs.iastate.edu/viewPost.php";
-    public static final String KEY_USERNAME = "username";
+    private String Username;
+    private String URL = "http://proj-309-sg-3.cs.iastate.edu/singlePost.php";
+    private ArrayList<String> items;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_post_view);
+        setContentView(R.layout.activity_single_post);
         Intent intent = getIntent();
         selectedItem = intent.getExtras().getString("selected");
         URL += "?selected=" + selectedItem;
@@ -59,39 +57,22 @@ public class PostViewActivity extends AppCompatActivity {
                                 e.printStackTrace();
                             }
                         }
-                        //Toast.makeText(PostViewActivity.this,response.toString(),Toast.LENGTH_LONG).show();
-                        String[] stringArray = new String[items.size()];
-                        items.toArray(stringArray);
-                        ArrayAdapter<String> adapter = new ArrayAdapter<String>(PostViewActivity.this, android.R.layout.simple_list_item_1, stringArray);
-                        ListView lv = (ListView)findViewById(R.id.listView);
-                        lv.setAdapter(adapter);
-
-                        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                            @Override
-                            public void onItemClick(AdapterView<?> parent, View view, int position,
-                                                    long id) {
-
-                                item = ((TextView)view).getText().toString();
-
-                                Toast.makeText(getBaseContext(), item, Toast.LENGTH_LONG).show();
-                                Intent intent = new Intent(PostViewActivity.this, SinglePostActivity.class);
-                                intent.putExtra("selected", item);
-                                startActivity(intent);
-
-                            }
-                        });
+                        Toast.makeText(SinglePostActivity.this,response.toString(),Toast.LENGTH_LONG).show();
+                        TextView tv = (TextView)findViewById(R.id.textView1);
+                        tv.setText(items.get(0));
+                        TextView tv2 = (TextView)findViewById(R.id.textView2);
+                        tv2.setText(items.get(1));
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(PostViewActivity.this,error.toString(),Toast.LENGTH_LONG).show();
+                        Toast.makeText(SinglePostActivity.this,error.toString(),Toast.LENGTH_LONG).show();
                     }
                 }){
             @Override
             protected Map<String,String> getParams(){
                 Map<String,String> params = new HashMap<String, String>();
-                params.put(KEY_USERNAME,Username);
                 params.put("thread", selectedItem);
                 return params;
             }
@@ -106,13 +87,6 @@ public class PostViewActivity extends AppCompatActivity {
             Intent intent1 = new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS);
             startActivity(intent1);
         }
-
-    }
-
-    public void goToNewPost(View view){
-        Intent intent = new Intent(PostViewActivity.this, newPostActivity.class);
-        intent.putExtra("selected", selectedItem);
-        startActivityForResult(intent, 1);
     }
 
 }
