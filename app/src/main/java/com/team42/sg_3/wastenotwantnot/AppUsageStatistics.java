@@ -1,26 +1,20 @@
 package com.team42.sg_3.wastenotwantnot;
 
-import android.accessibilityservice.AccessibilityService;
 import android.annotation.TargetApi;
-import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.app.usage.UsageEvents;
 import android.app.usage.UsageStats;
 import android.app.usage.UsageStatsManager;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
-import android.content.pm.ApplicationInfo;
 import android.os.Handler;
 import android.os.Looper;
-import android.provider.Settings;
 import android.util.Log;
-import android.view.accessibility.AccessibilityEvent;
+import android.view.WindowManager;
 
-import java.sql.Time;
+import java.util.Arrays;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
@@ -41,7 +35,7 @@ public class AppUsageStatistics {
     public static final String TAG = AppUsageStatistics.class.getSimpleName();
     private static Timer timer = null;
     private static String currentApp = "";
-    //private static String[] mostUsedApps = new String[10];
+    private static String[] mostUsedApps = null;
     @SuppressWarnings("ResourceType")
     @TargetApi(22)
     public static void getStats(Context context){
@@ -66,22 +60,34 @@ public class AppUsageStatistics {
         }
     }
 
-    /*@TargetApi(22)
-    private static String getNextHighest(List<UsageStats> usageStatsList) {
-        UsageStats highest = usageStatsList.get(0);
-        for(int i=0; i<usageStatsList.size(); i++) {
-
+    @TargetApi(22)
+    public static void updateMostUsedApps(Context context) {
+        List<UsageStats> usageStatsList = getUsageStatsList(context);
+        int index = 0;
+        String[] mostUsed = new String[5];
+        UsageStats temp = usageStatsList.get(0);
+        for(int i=0; i<mostUsed.length; i++) {
+            for(int j=0; j<usageStatsList.size()-i; j++) {
+                if(usageStatsList.get(j).getTotalTimeInForeground() < temp.getTotalTimeInForeground()) {
+                    if((!usageStatsList.get(j).getPackageName().contains("android") && !usageStatsList.get(j).getPackageName().contains("samsung"))
+                            || usageStatsList.get(j).getPackageName().contains("snapchat")  ) {
+                        index = j;
+                    }
+                }
+            }
+            mostUsed[i] = usageStatsList.get(index).getPackageName();
+            temp = usageStatsList.get(index);
+            usageStatsList.set(index, usageStatsList.get(usageStatsList.size()-i-1));
+            usageStatsList.set(usageStatsList.size()-i-1, temp);
         }
 
-        return highest.getPackageName();
-
+        mostUsedApps = mostUsed;
+        //Log.d("Most used apps", Arrays.toString(mostUsedApps));
     }
 
-    private static void getMostUsedApps(List<UsageStats> usageStatsList) {
-        for(int i=0; i<mostUsedApps.length; i++) {
-            mostUsedApps[i] = getNextHighest(usageStatsList);
-        }
-    }*/
+    public static String[] getMostUsedApps() {
+        return mostUsedApps;
+    }
 
     /**
      * Gets the UsasgeStats of  apps that have been used in a certain period
@@ -174,12 +180,21 @@ public class AppUsageStatistics {
     //functionality will be used later for getting the foreground app in the app listener service
     public static void startForegroundListener(Context context) {
         final Context c = context;
-        Timer timer = new Timer();
+        timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
             public void run() {
                 String foreground = getForegroundApp(c);
                 if(!currentApp.equals(foreground)) {
-                    if(!foreground.contains("android")) {
+                    boolean lockout = false;
+                    for(String app : mostUsedApps) {
+                        if(foreground.equals(app)) {
+                            lockout = true;
+                            break;
+                        }
+                    }
+
+                    //if(foreground.contains("facebook")) lockout = true;
+                    if(lockout) {
                         lockoutApp(c, foreground);
                     }
                     else {
@@ -197,7 +212,8 @@ public class AppUsageStatistics {
         timer.purge();
     }
 
-    private static void lockoutApp(Context context, String foregroundApp) {
+
+    private static void lockoutApp(Context context, final String foregroundApp) {
         final Context c = context;
         Intent startHomescreen=new Intent(Intent.ACTION_MAIN);
         startHomescreen.addCategory(Intent.CATEGORY_HOME);
@@ -206,28 +222,33 @@ public class AppUsageStatistics {
         currentApp = getForegroundApp(context);
 
 
-
-        /*new AlertDialog.Builder(context)
-                .setTitle("App Blocker")
-                .setMessage("This app (" + foregroundApp + ") has been blocked by Waste Not Want Not\n" +
-                        "Certain apps cannot be used during productive hours\n" +
-                        "Would you like to change this in the settings?")
-                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        Intent intent = new Intent(c, AppCompatPreferenceActivity.class);
-                        startActivity(c, intent, null);
-                    }
-                })
-                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        // do nothing
-                    }
-                })
-                .setIcon(android.R.drawable.ic_dialog_alert)
-                .show();*/
-
-
+        (new Handler(Looper.getMainLooper())).post(new Runnable() {
+            public void run() {
+                AlertDialog alertDialog = new AlertDialog.Builder(c)
+                        .setTitle("App Blocker")
+                        .setMessage("This app (" + foregroundApp + ") has been blocked by Waste Not Want Not\n" +
+                                "Certain apps cannot be used during productive hours\n" +
+                                "Would you like to change this in the settings?")
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                Intent intent = new Intent(c, SettingsActivity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(c, intent, null);
+                            }
+                        })
+                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // do nothing
+                            }
+                        })
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .create();
+                    alertDialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
+                    alertDialog.show();
+            }
+        });
     }
+
 
 
 }

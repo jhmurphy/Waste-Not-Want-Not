@@ -100,12 +100,15 @@ public class LoginActivity extends AppCompatActivity {
         if (AppUsageStatistics.getUsageStatsList(this).isEmpty()){
             new AlertDialog.Builder(this)
                     .setTitle("Add Permissions")
-                    .setMessage("Would you like to allow this app to access usage information?\n" +
+                    .setMessage("Would you like to allow this app to access usage information and allow notifications?\n" +
                                 "Note: this will help us keep track of your app usage")
                     .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             Intent intent = new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS);
                             startActivity(intent);
+                            Intent intent2 = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                                    Uri.parse("package:" + getPackageName()));
+                            startActivityForResult(intent2, 5469);
                         }
                     })
                     .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
@@ -115,7 +118,10 @@ public class LoginActivity extends AppCompatActivity {
                     })
                     .setIcon(android.R.drawable.ic_dialog_alert)
                     .show();
+
         }
+
+        //AppUsageStatistics.updateMostUsedApps(this);
         //AppUsageStatistics.onAccessEvent(this);
         //AppUsageStatistics.printCurrentUsageStatus(this);
         //Log.d("Shared Preferences", getSharedPreferences("firebase_info", MODE_PRIVATE).getString("reg_token", "token not found"));
@@ -137,7 +143,7 @@ public class LoginActivity extends AppCompatActivity {
     public void goToSignup(View view) {
         Intent signupPage = new Intent(LoginActivity.this, SignupActivity.class);
         startActivity(signupPage);
-        stopService(new Intent(this, MyAppListener.class));
+
 
     }
 
