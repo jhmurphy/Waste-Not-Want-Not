@@ -73,14 +73,14 @@ public class addEvent extends AppCompatActivity{
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_newthread);
+        setContentView(R.layout.activity_add_event);
 
         name = (EditText) findViewById(R.id.eventName);
         start = (TimePicker) findViewById(R.id.startTime);
         end = (TimePicker) findViewById(R.id.endTime);
         day = (DatePicker) findViewById(R.id.eventDate);
 
-        end.setHour(start.getHour() + 1);
+        //end.setHour(start.getHour() + 1);
     }
 
     /**

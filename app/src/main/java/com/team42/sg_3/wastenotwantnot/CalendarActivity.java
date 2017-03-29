@@ -35,9 +35,16 @@ public class CalendarActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), dayOfMonth + "/" + month + "/" + year, Toast.LENGTH_LONG).show();
             }
         });
+        /*
+        addEvent.setOnClickListener(new OnClickListener(){
+            @Override
+            public void onClick(View view){
+                addE();
+            }
+        });*/
     }
 
-    public void addEvent(View view){
+    public void addE(View v){
         Intent in = new Intent(CalendarActivity.this, addEvent.class);
         startActivity(in);
     }

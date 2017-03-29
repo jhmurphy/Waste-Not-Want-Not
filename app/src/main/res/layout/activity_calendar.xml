@@ -10,13 +10,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.team42.sg_3.wastenotwantnot.CalendarActivity">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:onClick="addEvent"
-        android:hint="Add Event"
-        android:layout_below="@+id/calendar"
-        android:layout_height="wrap_content"
-        android:id="@+id/add"/>
+
 
     <CalendarView
         android:id="@+id/calendar"
@@ -26,5 +20,14 @@
         android:layout_alignParentBottom="true">
 
     </CalendarView>
+
+    <Button
+        android:text="Add Event"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="addE"
+        android:layout_alignBottom="@+id/calendar"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/button" />
 
 </RelativeLayout>

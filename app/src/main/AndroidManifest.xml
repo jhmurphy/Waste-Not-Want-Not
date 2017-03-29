@@ -49,6 +49,9 @@
         <activity
             android:name=".newThreadActivity"
             android:label="Create new Thread" />
+        <activity
+            android:name=".addEvent"
+            android:label="Add New Event"/>
 
         <service android:name=".MyFirebaseInstanceIDService">
             <intent-filter>
