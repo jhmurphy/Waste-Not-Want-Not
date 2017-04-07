@@ -70,7 +70,8 @@
         android:onClick="submitEvent"
         android:id="@+id/submit"
         android:layout_below="@+id/eventDate"
-        android:layout_toLeftOf="@+id/endTime" />
+        android:layout_toLeftOf="@+id/endTime"
+        android:layout_toStartOf="@+id/eventName"/>
 
 </RelativeLayout>
 </ScrollView>

@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.provider.CalendarContract;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -50,7 +51,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import java.util.HashMap;
@@ -84,12 +88,57 @@ public class addEvent extends AppCompatActivity{
     }
 
     /**
-     * Handles user submitting new thread
+     * Handles user submitting new event
      */
     public void submitEvent(){
+        String ename = name.getText().toString().trim();
+        int startHour = start.getCurrentHour();
+        int startMin = start.getCurrentMinute();
+        int endHour = end.getCurrentHour();
+        int endMin = end.getCurrentMinute();
+        int mon = day.getMonth();
+        int yr = day.getYear();
+        int d = day.getDayOfMonth();
+        long Smillis = 0;
+        long Emillis = 0;
+
+        Intent in = new Intent(Intent.ACTION_INSERT_OR_EDIT);
+        in.setType("vnd.android.cursor.item/event");
+
+        startActivity(in);
+        
+        if(endHour < startHour || (endHour == startHour && endMin <= startMin)){
+            Toast.makeText(addEvent.this, "End Time must be after Start Time", Toast.LENGTH_LONG).show();
+            return;
+        }else{
+            //Turning start and end times into longs
+            String StartToMillis = yr+"/"+mon+"/"+d+" "+startHour+":"+startMin+":00";
+            String EndToMillis = yr+"/"+mon+"/"+d+" "+endHour+":"+endMin+":00";
+            SimpleDateFormat s = new SimpleDateFormat(StartToMillis);
+            SimpleDateFormat e = new SimpleDateFormat(EndToMillis);
+            Date date1;
+            Date date2;
+            try {
+                date1 = s.parse(StartToMillis);
+                date2 = e.parse(EndToMillis);
+                Smillis = date1.getTime();
+                Emillis = date2.getTime();
+            } catch (ParseException e1) {
+                Toast.makeText(addEvent.this, "An error occurred", Toast.LENGTH_LONG).show();
+                e1.printStackTrace();
+            }
+        }
+
+        in.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, Smillis);
+        in.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, Emillis);
+        in.putExtra(CalendarContract.Events.TITLE, ename);
 
     }
 
+    /**
+     * Back to calendar activity
+     * @param view
+     */
     public void back(View view){
         Intent in = new Intent(addEvent.this, CalendarActivity.class);
         startActivity(in);
