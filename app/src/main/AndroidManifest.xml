@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.team42.sg_3.wastenotwantnot">
 
+    <uses-sdk android:minSdkVersion="14" />
+
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -10,6 +12,7 @@
     <uses-permission
         android:name="android.permission.PACKAGE_USAGE_STATS"
         tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
 
     <application
         android:allowBackup="true"
@@ -46,6 +49,9 @@
         <activity
             android:name=".newThreadActivity"
             android:label="Create new Thread" />
+        <activity
+            android:name=".addEvent"
+            android:label="Add New Event"/>
 
         <service android:name=".MyFirebaseInstanceIDService">
             <intent-filter>
@@ -62,6 +68,9 @@
             android:name=".PostViewActivity"
             android:label="Posts" />
         <activity
+            android:name=".event"
+            android:label="@string/title_activity_event"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
             android:name=".newPostActivity"
             android:label="Create New Post " />
         <activity

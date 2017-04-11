@@ -1,7 +1,10 @@
 package com.team42.sg_3.wastenotwantnot;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.Toast;
 
@@ -14,7 +17,7 @@ public class CalendarActivity extends AppCompatActivity {
      * The Calendar.
      */
     CalendarView calendar;
-
+    Button addEvent;
     /**
      * Not much now, but this is in place to setup the
      * necessary information on a new instance of this activity
@@ -24,7 +27,7 @@ public class CalendarActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calendar);
-
+        addEvent = (Button) findViewById(R.id.add);
         calendar = (CalendarView) findViewById(R.id.calendar);
         calendar.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
@@ -32,5 +35,18 @@ public class CalendarActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), dayOfMonth + "/" + month + "/" + year, Toast.LENGTH_LONG).show();
             }
         });
+        /*
+        addEvent.setOnClickListener(new OnClickListener(){
+            @Override
+            public void onClick(View view){
+                addE();
+            }
+        });*/
     }
+
+    public void addE(View v){
+        Intent in = new Intent(CalendarActivity.this, addEvent.class);
+        startActivity(in);
+    }
+
 }
