@@ -189,17 +189,18 @@ public class LoginActivity extends AppCompatActivity {
             StringRequest stringRequest = new StringRequest(Request.Method.POST, url,new Response.Listener<String>(){
                 @Override
                 public void onResponse(String response){
-                    if(response.equals("Login successful")){
-                        SharedPreferences sharedpreferences = getSharedPreferences("userDetails", Context.MODE_PRIVATE);
-                        SharedPreferences.Editor editor = sharedpreferences.edit();
+                    if(response.startsWith("success")){
+                        String[] info = response.split(" ");
+                        SharedPreferences.Editor editor = getSharedPreferences("user_details", Context.MODE_PRIVATE).edit();
                         editor.putString("username", username);
+                        editor.putString("email", info[1]);
                         editor.commit();
                         Intent navigationPage = new Intent(LoginActivity.this, NavigationActivity.class);
                         startActivity(navigationPage);
-                        Toast.makeText(LoginActivity.this, response, Toast.LENGTH_LONG).show();
+                        Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_LONG).show();
                     }
-                    else {
-                        Toast.makeText(LoginActivity.this, "Wrong username or password", Toast.LENGTH_LONG).show();
+                    else{
+                        Toast.makeText(LoginActivity.this, response, Toast.LENGTH_LONG).show();
                     }
                 }
             }, new Response.ErrorListener(){

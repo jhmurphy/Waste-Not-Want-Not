@@ -60,6 +60,16 @@ public class AppUsageStatistics {
         }
     }
 
+    private static boolean isValidPackage(String packageName) {
+        if(packageName.contains("snapchat")) {
+            return true;
+        }
+        if(packageName.contains("android") || packageName.contains("samsung")) {
+            return false;
+        }
+        return true;
+    }
+
     @TargetApi(22)
     public static void updateMostUsedApps(Context context) {
         List<UsageStats> usageStatsList = getUsageStatsList(context);
@@ -69,8 +79,7 @@ public class AppUsageStatistics {
         for(int i=0; i<mostUsed.length; i++) {
             for(int j=0; j<usageStatsList.size()-i; j++) {
                 if(usageStatsList.get(j).getTotalTimeInForeground() < temp.getTotalTimeInForeground()) {
-                    if((!usageStatsList.get(j).getPackageName().contains("android") && !usageStatsList.get(j).getPackageName().contains("samsung"))
-                            || usageStatsList.get(j).getPackageName().contains("snapchat")  ) {
+                    if(isValidPackage(usageStatsList.get(j).getPackageName())) {
                         index = j;
                     }
                 }

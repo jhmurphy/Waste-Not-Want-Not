@@ -45,8 +45,7 @@ public class newPostActivity extends AppCompatActivity {
                     trySubmit();
                 }
             });
-        SharedPreferences userDetails = getSharedPreferences("userDetails", MODE_PRIVATE);
-        Username = userDetails.getString("username", "");
+        Username = getSharedPreferences("user_details", MODE_PRIVATE).getString("username", "username not found");
     }
 
     public void onSubmit(View view){

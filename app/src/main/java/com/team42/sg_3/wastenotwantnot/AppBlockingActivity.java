@@ -17,7 +17,7 @@ public class AppBlockingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_app_blocking);
         AppUsageStatistics.updateMostUsedApps(this);
-        String[] menu = {"test1", "test2", AppUsageStatistics.getForegroundApp(this)};
+        String[] menu = {AppUsageStatistics.getForegroundApp(this)};
         ListAdapter menuAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, AppUsageStatistics.getMostUsedApps());
         ListView listView = (ListView) findViewById(R.id.listView);
         listView.setAdapter(menuAdapter);

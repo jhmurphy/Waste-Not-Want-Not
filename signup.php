@@ -1,5 +1,12 @@
 <?php
 	session_start();
+	/**
+	*Signup Page
+	*
+	*Data taken from post request and inserted into DB
+	*to create new user
+	*
+	*/
 	
 	define ('HOST','mysql.cs.iastate.edu');
 	define ('USER','dbu309sg3');

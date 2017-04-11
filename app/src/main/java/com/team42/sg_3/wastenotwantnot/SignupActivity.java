@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -167,6 +168,10 @@ public class SignupActivity extends AppCompatActivity {
         if (cancel) {
             focusView.requestFocus();
         } else {
+            SharedPreferences.Editor editor = getSharedPreferences("user_info", MODE_PRIVATE).edit();
+            editor.putString("", "");
+            editor.commit();
+
             RequestQueue queue = Volley.newRequestQueue(this);
             final String url ="http://proj-309-sg-3.cs.iastate.edu/signup.php";
             StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>(){

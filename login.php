@@ -1,6 +1,12 @@
 <?php
 
 session_start();
+/**
+*Login Page
+*Queries the DB for login information
+*Used to authenticate login
+*
+*/
 	
 define ('HOST','mysql.cs.iastate.edu');
 define ('USER','dbu309sg3');
@@ -13,12 +19,13 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 	$user = $_POST['username'];
 	$pass = $_POST['password'];
 
-	$sql = "SELECT * FROM Users WHERE username = '$user' AND password = '$pass'";
+	$sql = "SELECT email FROM Users WHERE username = '$user' AND password = '$pass'";
 	$result = mysqli_query($con,$sql);
 	$num = mysqli_num_rows($result);
-	
+	$row = mysqli_fetch_row($result);
+
 	if($num == 1){
-		echo "Login successful";
+		echo "success " . $row[0];
 	}
 	else if($num == 0) {
 		echo "No user with that information";
