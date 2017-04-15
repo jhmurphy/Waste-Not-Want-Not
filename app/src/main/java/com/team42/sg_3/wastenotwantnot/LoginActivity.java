@@ -141,6 +141,7 @@ public class LoginActivity extends AppCompatActivity {
      * @param view the current view
      */
     public void goToSignup(View view) {
+        finish();
         Intent signupPage = new Intent(LoginActivity.this, SignupActivity.class);
         startActivity(signupPage);
 
@@ -195,6 +196,7 @@ public class LoginActivity extends AppCompatActivity {
                         editor.putString("username", username);
                         editor.putString("email", info[1]);
                         editor.commit();
+                        finish();
                         Intent navigationPage = new Intent(LoginActivity.this, NavigationActivity.class);
                         startActivity(navigationPage);
                         Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_LONG).show();

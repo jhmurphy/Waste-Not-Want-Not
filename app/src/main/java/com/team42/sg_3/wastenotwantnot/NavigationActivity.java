@@ -54,15 +54,11 @@ public class NavigationActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View v = inflater.inflate(R.layout.nav_header_navigation, null);
-
-        TextView username  = (TextView) v.findViewById(R.id.username);
+        View hView =  navigationView.getHeaderView(0);
+        TextView username  = (TextView) hView.findViewById(R.id.username);
         username.setText(getSharedPreferences("user_details", MODE_PRIVATE).getString("username", "username not found"));
-        TextView email  = (TextView) v.findViewById(R.id.email);
+        TextView email  = (TextView) hView.findViewById(R.id.email);
         email.setText(getSharedPreferences("user_details", MODE_PRIVATE).getString("email", "email not found"));
-
-
     }
 
     @Override
@@ -103,18 +99,22 @@ public class NavigationActivity extends AppCompatActivity
         Intent intent;
         switch(item.getItemId()){
             case R.id.nav_calendar:
+                finish();
                 intent = new Intent(this, CalendarActivity.class);
                 startActivity(intent);
                 return true;
             case R.id.nav_discussion:
+                finish();
                 intent = new Intent(this, DiscussionActivity.class);
                 startActivity(intent);
                 return true;
             case R.id.nav_settings:
+                finish();
                 intent = new Intent(this, SettingsActivity.class);
                 startActivity(intent);
                 return true;
             case R.id.nav_manage:
+                finish();
                 intent = new Intent(this, AppBlockingActivity.class);
                 startActivity(intent);
                 return true;
