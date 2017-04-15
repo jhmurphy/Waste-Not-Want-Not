@@ -99,4 +99,6 @@
     <string name="title_activity_event">event</string>
     <string name="title_activity_new_post">newPostActivity</string>
     <string name="title_activity_single_post">SinglePostActivity</string>
+    <string name="title_activity_event_home">EventHome</string>
+    <string name="title_activity_discussion_home">DiscussionHome</string>
 </resources>

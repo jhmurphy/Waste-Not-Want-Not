@@ -1,12 +1,9 @@
 package com.team42.sg_3.wastenotwantnot;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -16,25 +13,23 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.CalendarView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.zip.Inflater;
-
-/**
- * The navigation bar/menu used to navigate to the various modules of the app
- * Each section navigates to the homepage of the module to keep it simpler
- */
-public class NavigationActivity extends AppCompatActivity
+public class EventHome extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    CalendarView calendar;
+    Button addEvent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_navigation);
+        setContentView(R.layout.activity_event_home);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -50,6 +45,19 @@ public class NavigationActivity extends AppCompatActivity
         username.setText(getSharedPreferences("user_details", MODE_PRIVATE).getString("username", "username not found"));
         TextView email  = (TextView) hView.findViewById(R.id.email);
         email.setText(getSharedPreferences("user_details", MODE_PRIVATE).getString("email", "email not found"));
+
+        addEvent = (Button) findViewById(R.id.add);
+        calendar = (CalendarView) findViewById(R.id.calendar);
+        calendar.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+            @Override
+            public void onSelectedDayChange(CalendarView view, int year, int month, int dayOfMonth) {
+                Toast.makeText(getApplicationContext(), dayOfMonth + "/" + month + "/" + year, Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    public void addE(View v){
+        startActivity(new Intent(this, addEvent.class));
     }
 
     @Override
@@ -65,7 +73,7 @@ public class NavigationActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.navigation, menu);
+        getMenuInflater().inflate(R.menu.event_home, menu);
         return true;
     }
 
@@ -80,6 +88,7 @@ public class NavigationActivity extends AppCompatActivity
         if (id == R.id.action_settings) {
             return true;
         }
+
         return super.onOptionsItemSelected(item);
     }
 

@@ -54,7 +54,7 @@ import java.util.TreeMap;
 /**
  * The main home page for the Discussion Board module of the app
  */
-public class DiscussionActivity extends AppCompatActivity implements View.OnClickListener {
+public class DiscussionActivity extends AppCompatActivity {
 
     private static final String URL = "http://proj-309-sg-3.cs.iastate.edu/DiscussionBoard.php";
     /**
@@ -77,19 +77,13 @@ public class DiscussionActivity extends AppCompatActivity implements View.OnClic
      * This sets up the instance of this activity
      */
     @Override
-    @TargetApi(22)
+    @TargetApi(23)
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_discussion);
 
-        //editTextUsername = (EditText) findViewById(R.id.editTextUsername);
-        //editTextPost = (EditText) findViewById(R.id.editTextPost);
-
-        //buttonRegister = (Button) findViewById(R.id.buttonSubmit);
-
-        //buttonRegister.setOnClickListener(this);
-        SharedPreferences userDetails = getSharedPreferences("userDetails", MODE_PRIVATE);
-        Username = userDetails.getString("username", "");
+        SharedPreferences userDetails = getSharedPreferences("user_details", MODE_PRIVATE);
+        Username = userDetails.getString(KEY_USERNAME, "");
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.POST, URL, null,
                 new Response.Listener<JSONArray>() {
                     @Override
@@ -141,34 +135,6 @@ public class DiscussionActivity extends AppCompatActivity implements View.OnClic
         };
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(jsonArrayRequest);
-
-
-
-        if (AppUsageStatistics.getUsageStatsList(this).isEmpty()){
-            Intent intent = new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS);
-            startActivity(intent);
-        }
-
-    }
-
-    /**
-     * Sends the username and the post text to the server to store into the database
-     */
-    private void sendPost() {
-        final String username = Username;
-
-
-
-
-    }
-
-    /**
-     * Called by the button to start the process of sending the post to the server
-     * @param v current view
-     */
-    @Override
-    @TargetApi(22)
-    public void onClick(View v) {
 
     }
 

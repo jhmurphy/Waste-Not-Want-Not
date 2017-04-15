@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    tools:context="com.team42.sg_3.wastenotwantnot.NavigationActivity">
+    tools:context="com.team42.sg_3.wastenotwantnot.EventHome">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -21,6 +20,27 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_navigation" />
+    <include layout="@layout/content_event_home"
+        android:id="@+id/include" />
+
+    <CalendarView
+        android:id="@+id/calendar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="100dp"
+        android:layout_alignParentBottom="true"/>
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="bottom|right"
+        android:layout_marginBottom="20dp"
+        android:onClick="addE"
+        android:text="Add Event"
+        app:layout_anchor="@+id/include"
+        app:layout_anchorGravity="top|left" />
 
 </android.support.design.widget.CoordinatorLayout>
