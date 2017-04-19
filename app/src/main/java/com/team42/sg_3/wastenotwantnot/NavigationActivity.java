@@ -89,6 +89,8 @@ public class NavigationActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         Intent intent;
         switch(item.getItemId()){
+            case R.id.nav_home:
+                return true;
             case R.id.nav_calendar:
                 finish();
                 intent = new Intent(this, EventHome.class);
@@ -103,7 +105,7 @@ public class NavigationActivity extends AppCompatActivity
                 intent = new Intent(this, SettingsActivity.class);
                 startActivity(intent);
                 return true;
-            case R.id.nav_manage:
+            case R.id.nav_app_blocker:
                 intent = new Intent(this, AppBlockingActivity.class);
                 startActivity(intent);
                 return true;

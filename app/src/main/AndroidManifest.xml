@@ -41,16 +41,12 @@
         <activity
             android:name=".SettingsActivity"
             android:label="@string/title_activity_settings" />
-        <activity android:name=".CalendarActivity" />
         <activity
             android:name=".SignupActivity"
             android:label="@string/title_activity_signup" />
         <activity
             android:name=".AppBlockingActivity"
             android:label="App Blocking Functionality" />
-        <activity
-            android:name=".DiscussionActivity"
-            android:label="Discussion" />
         <activity
             android:name=".newThreadActivity"
             android:label="Create new Thread" />

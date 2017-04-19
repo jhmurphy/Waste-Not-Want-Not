@@ -21,9 +21,6 @@ import android.widget.Toast;
 public class EventHome extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    CalendarView calendar;
-    Button addEvent;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,17 +43,13 @@ public class EventHome extends AppCompatActivity
         TextView email  = (TextView) hView.findViewById(R.id.email);
         email.setText(getSharedPreferences("user_details", MODE_PRIVATE).getString("email", "email not found"));
 
-        addEvent = (Button) findViewById(R.id.add);
-        calendar = (CalendarView) findViewById(R.id.calendar);
-        calendar.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
-            @Override
-            public void onSelectedDayChange(CalendarView view, int year, int month, int dayOfMonth) {
-                Toast.makeText(getApplicationContext(), dayOfMonth + "/" + month + "/" + year, Toast.LENGTH_LONG).show();
-            }
-        });
+
+
+
+
     }
 
-    public void addE(View v){
+    public void addEvent(View v){
         startActivity(new Intent(this, addEvent.class));
     }
 
@@ -98,10 +91,12 @@ public class EventHome extends AppCompatActivity
         // Handle navigation view item clicks here.
         Intent intent;
         switch(item.getItemId()){
-            case R.id.nav_calendar:
+            case R.id.nav_home:
                 finish();
-                intent = new Intent(this, EventHome.class);
+                intent = new Intent(this, NavigationActivity.class);
                 startActivity(intent);
+                return true;
+            case R.id.nav_calendar:
                 return true;
             case R.id.nav_discussion:
                 finish();
@@ -112,7 +107,7 @@ public class EventHome extends AppCompatActivity
                 intent = new Intent(this, SettingsActivity.class);
                 startActivity(intent);
                 return true;
-            case R.id.nav_manage:
+            case R.id.nav_app_blocker:
                 intent = new Intent(this, AppBlockingActivity.class);
                 startActivity(intent);
                 return true;

@@ -3,6 +3,10 @@
 
     <group android:checkableBehavior="single">
         <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/ic_menu_share"
+            android:title="Home" />
+        <item
             android:id="@+id/nav_calendar"
             android:icon="@drawable/ic_notifications_black_24dp"
             android:title="Event Home" />
@@ -11,8 +15,8 @@
             android:icon="@drawable/ic_menu_send"
             android:title="Discussion Board" />
         <item
-            android:id="@+id/nav_manage"
-            android:icon="@drawable/ic_menu_manage"
+            android:id="@+id/nav_app_blocker"
+            android:icon="@drawable/ic_info_black_24dp"
             android:title="App Blocking" />
         <item
             android:id="@+id/nav_settings"

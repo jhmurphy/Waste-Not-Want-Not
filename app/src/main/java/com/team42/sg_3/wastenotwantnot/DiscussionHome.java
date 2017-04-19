@@ -86,7 +86,6 @@ public class DiscussionHome extends AppCompatActivity
                                 e.printStackTrace();
                             }
                         }
-                        //Toast.makeText(DiscussionActivity.this,response.toString(),Toast.LENGTH_LONG).show();
                         String[] stringArray = new String[items.size()];
                         items.toArray(stringArray);
                         ArrayAdapter<String> adapter = new ArrayAdapter<String>(DiscussionHome.this, android.R.layout.simple_list_item_1, stringArray);
@@ -165,21 +164,23 @@ public class DiscussionHome extends AppCompatActivity
         // Handle navigation view item clicks here.
         Intent intent;
         switch(item.getItemId()){
+            case R.id.nav_home:
+                finish();
+                intent = new Intent(this, NavigationActivity.class);
+                startActivity(intent);
+                return true;
             case R.id.nav_calendar:
                 finish();
                 intent = new Intent(this, EventHome.class);
                 startActivity(intent);
                 return true;
             case R.id.nav_discussion:
-                finish();
-                intent = new Intent(this, DiscussionHome.class);
-                startActivity(intent);
                 return true;
             case R.id.nav_settings:
                 intent = new Intent(this, SettingsActivity.class);
                 startActivity(intent);
                 return true;
-            case R.id.nav_manage:
+            case R.id.nav_app_blocker:
                 intent = new Intent(this, AppBlockingActivity.class);
                 startActivity(intent);
                 return true;

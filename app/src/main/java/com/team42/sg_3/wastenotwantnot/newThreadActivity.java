@@ -106,7 +106,7 @@ public class newThreadActivity extends AppCompatActivity{
                     if(response.equals("thread successful")){
                         Toast.makeText(newThreadActivity.this, response, Toast.LENGTH_LONG).show();
                         /*Back to threads*/
-                        Intent discussionPage = new Intent(newThreadActivity.this, DiscussionActivity.class);
+                        Intent discussionPage = new Intent(newThreadActivity.this, DiscussionHome.class);
                         startActivity(discussionPage);
                     }else{
                         Toast.makeText(newThreadActivity.this, response, Toast.LENGTH_LONG).show();
@@ -134,7 +134,7 @@ public class newThreadActivity extends AppCompatActivity{
     }
 
     public void onCancel(View view){
-        Intent in = new Intent(newThreadActivity.this, DiscussionActivity.class);
+        Intent in = new Intent(newThreadActivity.this, DiscussionHome.class);
         startActivity(in);
     }
 

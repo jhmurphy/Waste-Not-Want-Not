@@ -97,7 +97,7 @@ public class addEvent extends AppCompatActivity{
      * @param view
      */
     public void back(View view){
-        Intent in = new Intent(addEvent.this, CalendarActivity.class);
+        Intent in = new Intent(addEvent.this, EventHome.class);
         startActivity(in);
     }
 
