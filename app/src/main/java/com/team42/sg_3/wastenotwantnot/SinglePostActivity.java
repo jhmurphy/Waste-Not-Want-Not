@@ -43,7 +43,7 @@ public class SinglePostActivity extends AppCompatActivity {
         Intent intent = getIntent();
         selectedItem = intent.getExtras().getString("selected");
         URL += "?selected=" + selectedItem;
-        SharedPreferences userDetails = getSharedPreferences("userDetails", MODE_PRIVATE);
+        SharedPreferences userDetails = getSharedPreferences("user_details", MODE_PRIVATE);
         Username = userDetails.getString("username", "");
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.POST, URL, null,
                 new Response.Listener<JSONArray>() {
@@ -57,7 +57,6 @@ public class SinglePostActivity extends AppCompatActivity {
                                 e.printStackTrace();
                             }
                         }
-                        Toast.makeText(SinglePostActivity.this,response.toString(),Toast.LENGTH_LONG).show();
                         TextView tv = (TextView)findViewById(R.id.textView1);
                         tv.setText(items.get(0));
                         TextView tv2 = (TextView)findViewById(R.id.textView2);
