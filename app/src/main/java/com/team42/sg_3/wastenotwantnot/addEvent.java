@@ -82,14 +82,10 @@ public class addEvent extends AppCompatActivity{
                 e1.printStackTrace();
             }
         }
+        internalStorage is = new internalStorage();
+        is.inputEvent(ename, Smillis, Emillis);
 
-        in.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, Smillis);
-        in.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, Emillis);
-        in.putExtra(CalendarContract.Events.TITLE, ename);
-
-
-        startActivity(in);
-
+        return;
     }
 
     /**
