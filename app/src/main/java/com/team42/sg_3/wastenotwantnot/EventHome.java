@@ -53,6 +53,10 @@ public class EventHome extends AppCompatActivity
         startActivity(new Intent(this, addEvent.class));
     }
 
+    public void productiveHours(View v){
+        startActivity(new Intent(this, ProductiveActivity.class));
+    }
+
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
