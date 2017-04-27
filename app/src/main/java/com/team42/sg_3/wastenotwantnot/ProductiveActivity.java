@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.Random;
 
 public class ProductiveActivity extends AppCompatActivity {
 
@@ -82,13 +83,16 @@ public class ProductiveActivity extends AppCompatActivity {
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
         //set the alarm for particular start time
-        alarmManager.set(AlarmManager.RTC_WAKEUP,cal.getTimeInMillis(), PendingIntent.getBroadcast(this,1,  intentStartAlarm, PendingIntent.FLAG_UPDATE_CURRENT));
+        Random rand = new Random();
+        int st = rand.nextInt(300);
+        alarmManager.set(AlarmManager.RTC_WAKEUP,cal.getTimeInMillis(), PendingIntent.getBroadcast(this, st,  intentStartAlarm, PendingIntent.FLAG_UPDATE_CURRENT));
 
         Intent intentEndAlarm = new Intent(ProductiveActivity.this, AlarmReceiverActivity.class);
         intentEndAlarm.putExtra("end", "end");
 
+        int end = rand.nextInt(500);
         //set the alarm for particular end time
-        alarmManager.set(AlarmManager.RTC_WAKEUP,calEnd.getTimeInMillis(), PendingIntent.getBroadcast(this,2,  intentEndAlarm, PendingIntent.FLAG_UPDATE_CURRENT));
+        alarmManager.set(AlarmManager.RTC_WAKEUP,calEnd.getTimeInMillis(), PendingIntent.getBroadcast(this, end,  intentEndAlarm, PendingIntent.FLAG_UPDATE_CURRENT));
 
         Toast.makeText(ProductiveActivity.this, "Productive Period Set", Toast.LENGTH_LONG).show();
         Intent in = new Intent(ProductiveActivity.this, EventHome.class);

@@ -77,8 +77,6 @@
             android:name=".event"
             android:label="@string/title_activity_event"
             android:theme="@style/AppTheme.NoActionBar" />
-        android:name=".newPostActivity"
-        android:label="Create New Post " />
         <activity
             android:name=".SinglePostActivity"
             android:label="Post" />
@@ -94,7 +92,17 @@
             android:name=".ProductiveActivity"
             android:label="Enter Productive Time"
             android:theme="@style/AppTheme.NoActionBar" />
-        <receiver android:name=".AlarmReceiverActivity"/>
+
+        <receiver android:name=".AlarmReceiverActivity" />
+
+        <activity
+            android:name=".WeekViewActivity"
+            android:label="@string/title_activity_week_view"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".WeekActivity"
+            android:label="@string/title_activity_week"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

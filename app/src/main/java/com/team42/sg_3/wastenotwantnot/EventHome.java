@@ -57,6 +57,10 @@ public class EventHome extends AppCompatActivity
         startActivity(new Intent(this, ProductiveActivity.class));
     }
 
+    public void weekView(View v){
+        startActivity(new Intent(this, WeekActivity.class));
+    }
+
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
