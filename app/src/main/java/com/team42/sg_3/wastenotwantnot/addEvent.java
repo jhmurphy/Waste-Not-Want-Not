@@ -1,6 +1,7 @@
 package com.team42.sg_3.wastenotwantnot;
 
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.provider.CalendarContract;
 import android.support.v7.app.AppCompatActivity;
 import android.content.Intent;
@@ -82,10 +83,12 @@ public class addEvent extends AppCompatActivity{
                 e1.printStackTrace();
             }
         }
-        internalStorage is = new internalStorage();
-        is.inputEvent(ename, Smillis, Emillis);
+        internalStorage is = new internalStorage(getApplicationContext());
+        String proof = is.inputEvent(ename, Smillis, Emillis);
 
-        return;
+        Toast.makeText(addEvent.this, proof, Toast.LENGTH_LONG).show();
+
+        back(view);
     }
 
     /**
