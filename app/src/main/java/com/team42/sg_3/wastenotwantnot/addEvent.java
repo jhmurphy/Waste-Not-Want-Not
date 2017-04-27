@@ -69,13 +69,12 @@ public class addEvent extends AppCompatActivity{
             //Turning start and end times into longs
             String StartToMillis = yr+"/"+mon+"/"+d+" "+startHour+":"+startMin+":00";
             String EndToMillis = yr+"/"+mon+"/"+d+" "+endHour+":"+endMin+":00";
-            SimpleDateFormat s = new SimpleDateFormat(StartToMillis);
-            SimpleDateFormat e = new SimpleDateFormat(EndToMillis);
+            SimpleDateFormat s = new SimpleDateFormat("yyyy/mm/dd hh:mm:ss");
             Date date1;
             Date date2;
             try {
                 date1 = s.parse(StartToMillis);
-                date2 = e.parse(EndToMillis);
+                date2 = s.parse(EndToMillis);
                 Smillis = date1.getTime();
                 Emillis = date2.getTime();
             } catch (ParseException e1) {
@@ -83,6 +82,8 @@ public class addEvent extends AppCompatActivity{
                 e1.printStackTrace();
             }
         }
+
+
         internalStorage is = new internalStorage(getApplicationContext());
         String proof = is.inputEvent(ename, Smillis, Emillis);
 

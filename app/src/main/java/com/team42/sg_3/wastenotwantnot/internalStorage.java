@@ -37,8 +37,8 @@ public class internalStorage {
         SQLiteDatabase db = context.openOrCreateDatabase("309WNWN", Context.MODE_PRIVATE, null);
 
         db.execSQL("CREATE TABLE IF NOT EXISTS Events(Title STRING, Start long, End long);");//Maybe change long to text
-        Date sd = new Date(start);
-        Date ed = new Date(end);
+        //Date sd = new Date(start);
+        //Date ed = new Date(end);
 
         //String startDate = ""+sd.getYear()+"-"+sd.getMonth()+"-"+sd.getDay()+" "+sd.getHours()%24+":"+sd.getMinutes()%60+":"+sd.getSeconds()%60+".000";
         //String endDate = ""+ed.getYear()+"-"+ed.getMonth()+"-"+ed.getDay()+" "+ed.getHours()%24+":"+ed.getMinutes()%60+":"+ed.getSeconds()%60+".000";
