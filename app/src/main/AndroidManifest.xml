@@ -74,9 +74,6 @@
             android:name=".PostViewActivity"
             android:label="Posts" />
         <activity
-            android:name=".newPostActivity"
-            android:label="Create Post" />
-        <activity
             android:name=".event"
             android:label="@string/title_activity_event"
             android:theme="@style/AppTheme.NoActionBar" />
