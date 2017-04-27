@@ -5,9 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.team42.sg_3.wastenotwantnot.EventHome"
-    tools:showIn="@layout/app_bar_event_home">
-
-
+    tools:context="com.team42.sg_3.wastenotwantnot.AlarmReceiverActivity"
+    tools:showIn="@layout/activity_alarm_receiver">
 
 </android.support.constraint.ConstraintLayout>

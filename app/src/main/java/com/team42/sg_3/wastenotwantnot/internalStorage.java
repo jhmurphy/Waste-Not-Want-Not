@@ -24,7 +24,6 @@ public class internalStorage {
         context = con;
     }
 
-
     /**
      * Puts event into sqlite table events
      * @param title

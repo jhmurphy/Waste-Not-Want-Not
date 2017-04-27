@@ -69,7 +69,6 @@ public class PostViewActivity extends AppCompatActivity {
                         ArrayAdapter<String> adapter = new ArrayAdapter<String>(PostViewActivity.this, android.R.layout.simple_list_item_1, stringArray);
                         ListView lv = (ListView)findViewById(R.id.listView);
                         lv.setAdapter(adapter);
-
                         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override
                             public void onItemClick(AdapterView<?> parent, View view, int position,

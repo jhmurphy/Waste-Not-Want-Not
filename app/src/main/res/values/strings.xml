@@ -101,4 +101,6 @@
     <string name="title_activity_single_post">SinglePostActivity</string>
     <string name="title_activity_event_home">EventHome</string>
     <string name="title_activity_discussion_home">DiscussionHome</string>
+    <string name="title_activity_productive">ProductiveActivity</string>
+    <string name="title_activity_alarm_receiver">AlarmReceiverActivity</string>
 </resources>
