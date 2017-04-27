@@ -37,6 +37,7 @@ public class MyAppListener extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.d("MyAppListener", "Service Started");
+        AppUsageStatistics.updateMostUsedApps(this);
         AppUsageStatistics.startForegroundListener(this);
         return super.onStartCommand(intent, flags, startId);
     }

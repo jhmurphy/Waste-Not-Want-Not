@@ -63,8 +63,8 @@ public class ProductiveActivity extends AppCompatActivity {
         cal.add(Calendar.DAY_OF_YEAR, cur_cal.get(Calendar.DAY_OF_YEAR));
         cal.set(Calendar.HOUR_OF_DAY, startHour);
         cal.set(Calendar.MINUTE, startMin);
-        cal.set(Calendar.SECOND, cur_cal.get(Calendar.SECOND));
-        cal.set(Calendar.MILLISECOND, cur_cal.get(Calendar.MILLISECOND));
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
         cal.set(Calendar.DATE, cur_cal.get(Calendar.DATE));
         cal.set(Calendar.MONTH, cur_cal.get(Calendar.MONTH));
 
@@ -72,8 +72,8 @@ public class ProductiveActivity extends AppCompatActivity {
         calEnd.add(Calendar.DAY_OF_YEAR, cur_cal.get(Calendar.DAY_OF_YEAR));
         calEnd.set(Calendar.HOUR_OF_DAY, endHour);
         calEnd.set(Calendar.MINUTE, endMin);
-        calEnd.set(Calendar.SECOND, cur_cal.get(Calendar.SECOND));
-        calEnd.set(Calendar.MILLISECOND, cur_cal.get(Calendar.MILLISECOND));
+        calEnd.set(Calendar.SECOND, 0);
+        calEnd.set(Calendar.MILLISECOND, 0);
         calEnd.set(Calendar.DATE, cur_cal.get(Calendar.DATE));
         calEnd.set(Calendar.MONTH, cur_cal.get(Calendar.MONTH));
 
@@ -84,12 +84,11 @@ public class ProductiveActivity extends AppCompatActivity {
         //set the alarm for particular start time
         alarmManager.set(AlarmManager.RTC_WAKEUP,cal.getTimeInMillis(), PendingIntent.getBroadcast(this,1,  intentStartAlarm, PendingIntent.FLAG_UPDATE_CURRENT));
 
-        //Intent intentEndAlarm = new Intent(ProductiveActivity.this, AlarmReceiverActivity.class);
-        //intentEndAlarm.putExtra("end", "end");
-        //AlarmManager alarmEndManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        Intent intentEndAlarm = new Intent(ProductiveActivity.this, AlarmReceiverActivity.class);
+        intentEndAlarm.putExtra("end", "end");
 
         //set the alarm for particular end time
-        //alarmEndManager.set(AlarmManager.RTC_WAKEUP,calEnd.getTimeInMillis(), PendingIntent.getBroadcast(this,1,  intentEndAlarm, PendingIntent.FLAG_UPDATE_CURRENT));
+        alarmManager.set(AlarmManager.RTC_WAKEUP,calEnd.getTimeInMillis(), PendingIntent.getBroadcast(this,2,  intentEndAlarm, PendingIntent.FLAG_UPDATE_CURRENT));
 
         Toast.makeText(ProductiveActivity.this, "Productive Period Set", Toast.LENGTH_LONG).show();
         Intent in = new Intent(ProductiveActivity.this, EventHome.class);

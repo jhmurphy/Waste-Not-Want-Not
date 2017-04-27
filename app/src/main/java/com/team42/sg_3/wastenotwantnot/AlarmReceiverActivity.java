@@ -17,10 +17,11 @@ public class AlarmReceiverActivity extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent)
     {
         if(intent.getExtras().getString("start") != null && intent.getExtras().getString("start").equals("start")){
-            Log.d("myTag", "Testing");
+            Log.d("myTag", "Start Log");
             context.startService(new Intent(context, MyAppListener.class));
         }
         else{
+            Log.d("myTag", "Stop Log");
             context.stopService(new Intent(context, MyAppListener.class));
         }
 

@@ -21,7 +21,7 @@ public class internalStorage {
 
     public void inputEvent(String title, long start, long end){
 
-        SQLiteDatabase db = SQLiteDatabase.openOrCreateDatabase("309WNWN", null);
+        SQLiteDatabase db = SQLiteDatabase.openOrCreateDatabase("309.db", null);
         db.execSQL("CREATE TABLE IF NOT EXISTS Events(Title STRING, Start text, End text);");
         Date sd = new Date(start);
         Date ed = new Date(end);
@@ -37,7 +37,7 @@ public class internalStorage {
 
     public ArrayList<String[]> retrieveEvents(){
         ArrayList<String[]> array = new ArrayList<String[]>();
-        SQLiteDatabase db = SQLiteDatabase.openOrCreateDatabase("309WNWN", null);
+        SQLiteDatabase db = SQLiteDatabase.openOrCreateDatabase("309.db", null);
         Cursor c = db.rawQuery("SELECT * FROM Events", null);
         c.moveToFirst();
         int i = 0;
@@ -55,7 +55,7 @@ public class internalStorage {
     }
 
     public void deleteEvent(String title, long start, long end){
-        SQLiteDatabase db = SQLiteDatabase.openOrCreateDatabase("309WNWN", null);
+        SQLiteDatabase db = SQLiteDatabase.openOrCreateDatabase("309.db", null);
 
         Date sd = new Date(start);
         Date ed = new Date(end);
@@ -67,7 +67,7 @@ public class internalStorage {
     }
 
     public void cleanEvents(){
-        SQLiteDatabase db = SQLiteDatabase.openOrCreateDatabase("309WNWN", null);
+        SQLiteDatabase db = SQLiteDatabase.openOrCreateDatabase("309.db", null);
         db.execSQL("DELETE * FROM Events WHERE julianday('now') > julianday(End)");
         return;
     }
