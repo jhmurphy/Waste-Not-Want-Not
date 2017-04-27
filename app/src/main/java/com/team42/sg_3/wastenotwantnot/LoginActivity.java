@@ -118,13 +118,7 @@ public class LoginActivity extends AppCompatActivity {
                     })
                     .setIcon(android.R.drawable.ic_dialog_alert)
                     .show();
-
         }
-
-        //AppUsageStatistics.updateMostUsedApps(this);
-        //AppUsageStatistics.onAccessEvent(this);
-        //AppUsageStatistics.printCurrentUsageStatus(this);
-        //Log.d("Shared Preferences", getSharedPreferences("firebase_info", MODE_PRIVATE).getString("reg_token", "token not found"));
     }
 
     /**
@@ -144,8 +138,6 @@ public class LoginActivity extends AppCompatActivity {
         finish();
         Intent signupPage = new Intent(LoginActivity.this, SignupActivity.class);
         startActivity(signupPage);
-
-
     }
 
     /**

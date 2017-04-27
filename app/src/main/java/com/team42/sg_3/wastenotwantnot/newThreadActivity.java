@@ -77,7 +77,7 @@ public class newThreadActivity extends AppCompatActivity{
                 trySubmit();
             }
         });
-        SharedPreferences userDetails = getSharedPreferences("userDetails", MODE_PRIVATE);
+        SharedPreferences userDetails = getSharedPreferences("user_details", MODE_PRIVATE);
         Username = userDetails.getString("username", "");
     }
 

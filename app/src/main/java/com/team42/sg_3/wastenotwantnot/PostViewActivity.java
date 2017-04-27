@@ -8,6 +8,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -45,12 +46,14 @@ public class PostViewActivity extends AppCompatActivity {
         Intent intent = getIntent();
         selectedItem = intent.getExtras().getString("selected");
         URL += "?selected=" + selectedItem;
-        SharedPreferences userDetails = getSharedPreferences("userDetails", MODE_PRIVATE);
+        SharedPreferences userDetails = getSharedPreferences("user_details", MODE_PRIVATE);
         Username = userDetails.getString("username", "");
+        Log.d("postview debug", "on create");
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.POST, URL, null,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
+                        Log.d("postview debug", "got response");
                         items = new ArrayList<String>();
                         for(int i=0; i < response.length(); i++){
                             try {
@@ -59,6 +62,7 @@ public class PostViewActivity extends AppCompatActivity {
                                 e.printStackTrace();
                             }
                         }
+                        Log.d("postview debug", "json response array" + items.toString());
                         //Toast.makeText(PostViewActivity.this,response.toString(),Toast.LENGTH_LONG).show();
                         String[] stringArray = new String[items.size()];
                         items.toArray(stringArray);
@@ -71,8 +75,6 @@ public class PostViewActivity extends AppCompatActivity {
                                                     long id) {
 
                                 item = ((TextView)view).getText().toString();
-
-                                Toast.makeText(getBaseContext(), item, Toast.LENGTH_LONG).show();
                                 Intent intent = new Intent(PostViewActivity.this, SinglePostActivity.class);
                                 intent.putExtra("selected", item);
                                 startActivity(intent);

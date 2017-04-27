@@ -35,30 +35,7 @@ public class AppUsageStatistics {
     public static final String TAG = AppUsageStatistics.class.getSimpleName();
     private static Timer timer = null;
     private static String currentApp = "";
-    private static String[] mostUsedApps = null;
-    @SuppressWarnings("ResourceType")
-    @TargetApi(22)
-    public static void getStats(Context context){
-        UsageStatsManager usm = (UsageStatsManager) context.getSystemService("usagestats");
-        int interval = UsageStatsManager.INTERVAL_DAILY;
-        Calendar calendar = Calendar.getInstance();
-        long endTime = calendar.getTimeInMillis();
-        calendar.add(Calendar.DATE, -1);
-        long startTime = calendar.getTimeInMillis();
-
-        Log.d(TAG, "Range start:" + dateFormat.format(startTime) );
-        Log.d(TAG, "Range end:" + dateFormat.format(endTime));
-
-        UsageEvents uEvents = usm.queryEvents(startTime,endTime);
-        while (uEvents.hasNextEvent()){
-            UsageEvents.Event e = new UsageEvents.Event();
-            uEvents.getNextEvent(e);
-
-            if (e != null){
-                Log.d(TAG, "Event: " + e.getPackageName() + "\t" +  e.getTimeStamp());
-            }
-        }
-    }
+    private static String[] mostUsedApps = new String[5];
 
     private static boolean isValidPackage(String packageName) {
         if(packageName.contains("snapchat")) {
@@ -74,24 +51,20 @@ public class AppUsageStatistics {
     public static void updateMostUsedApps(Context context) {
         List<UsageStats> usageStatsList = getUsageStatsList(context);
         int index = 0;
-        String[] mostUsed = new String[5];
         UsageStats temp = usageStatsList.get(0);
-        for(int i=0; i<mostUsed.length; i++) {
-            for(int j=0; j<usageStatsList.size()-i; j++) {
-                if(usageStatsList.get(j).getTotalTimeInForeground() < temp.getTotalTimeInForeground()) {
-                    if(isValidPackage(usageStatsList.get(j).getPackageName())) {
+        for(int i=0; i<mostUsedApps.length; i++) {
+            for (int j = 0; j < usageStatsList.size() - i; j++) {
+                if (usageStatsList.get(j).getTotalTimeInForeground() < temp.getTotalTimeInForeground()) {
+                    if (isValidPackage(usageStatsList.get(j).getPackageName())) {
                         index = j;
                     }
                 }
             }
-            mostUsed[i] = usageStatsList.get(index).getPackageName();
+            mostUsedApps[i] = usageStatsList.get(index).getPackageName();
             temp = usageStatsList.get(index);
-            usageStatsList.set(index, usageStatsList.get(usageStatsList.size()-i-1));
-            usageStatsList.set(usageStatsList.size()-i-1, temp);
+            usageStatsList.set(index, usageStatsList.get(usageStatsList.size() - i - 1));
+            usageStatsList.set(usageStatsList.size() - i - 1, temp);
         }
-
-        mostUsedApps = mostUsed;
-        //Log.d("Most used apps", Arrays.toString(mostUsedApps));
     }
 
     public static String[] getMostUsedApps() {
@@ -111,41 +84,9 @@ public class AppUsageStatistics {
         calendar.add(Calendar.DATE, -7);
         long startTime = calendar.getTimeInMillis();
 
-        Log.d(TAG, "Range start:" + dateFormat.format(startTime) );
-        Log.d(TAG, "Range end:" + dateFormat.format(endTime));
-
         List<UsageStats> usageStatsList = usm.queryUsageStats(UsageStatsManager.INTERVAL_DAILY,startTime,endTime);
-        List<UsageStats> ret = usageStatsList;
 
-        //getMostUsedApps(usageStatsList);
-
-        return ret;
-    }
-
-    /*public void printMostUsed() {
-        for (String app : mostUsedApps){
-            Log.d(TAG, "Pkg: " + app) ;
-        }
-    }*/
-
-    /**
-     * Will log the apps that have been used and how much time they've been used
-     * @param usageStatsList
-     */
-    @TargetApi(22)
-    public static void printUsageStats(List<UsageStats> usageStatsList){
-        for (UsageStats u : usageStatsList){
-            Log.d(TAG, "Pkg: " + u.getPackageName() +  "\t" + "ForegroundTime: "
-                    + u.getTotalTimeInForeground()) ;
-        }
-    }
-
-    /**
-     *  Prints in logcat the current usage of apps on the device
-     * @param context
-     */
-    public static void printCurrentUsageStatus(Context context){
-        printUsageStats(getUsageStatsList(context));
+        return usageStatsList;
     }
 
     @SuppressWarnings("ResourceType")
@@ -202,7 +143,6 @@ public class AppUsageStatistics {
                         }
                     }
 
-                    //if(foreground.contains("facebook")) lockout = true;
                     if(lockout) {
                         lockoutApp(c, foreground);
                     }
