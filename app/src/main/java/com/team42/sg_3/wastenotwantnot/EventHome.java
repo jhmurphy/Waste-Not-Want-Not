@@ -13,21 +13,32 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CalendarView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 public class EventHome extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    private ArrayList<String> productiveHours;
+    private ArrayAdapter<String> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_home);
+        productiveHours = new ArrayList<String>();
+        adapter = new ArrayAdapter<String>(EventHome.this, android.R.layout.simple_list_item_1, productiveHours);
+        ListView lv = (ListView)findViewById(R.id.productiveList);
+        lv.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -43,10 +54,28 @@ public class EventHome extends AppCompatActivity
         TextView email  = (TextView) hView.findViewById(R.id.email);
         email.setText(getSharedPreferences("user_details", MODE_PRIVATE).getString("email", "email not found"));
 
+        //internalStorage is = new internalStorage(getApplicationContext());
+        //ArrayList<Object[]> list = is.retrieveEvents();
+        //Toast.makeText(EventHome.this, (String) list.get(0)[0], Toast.LENGTH_LONG).show();
+        //is.clearEvents();
 
 
 
+    }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == 1) {
+            if (resultCode == ProductiveActivity.RESULT_OK) {
+                productiveHours.add(data.getStringExtra("times"));
+                Toast.makeText(EventHome.this, "onActivityResult",Toast.LENGTH_LONG).show();
+                adapter.notifyDataSetChanged();
+            }
+            if (resultCode == ProductiveActivity.RESULT_CANCELED) {
+                //Write your code if there's no result
+            }
+        }
     }
 
     public void addEvent(View v){
@@ -54,7 +83,7 @@ public class EventHome extends AppCompatActivity
     }
 
     public void productiveHours(View v){
-        startActivity(new Intent(this, ProductiveActivity.class));
+        startActivityForResult(new Intent(this, ProductiveActivity.class), 1);
     }
 
     public void weekView(View v){

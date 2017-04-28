@@ -95,8 +95,18 @@ public class ProductiveActivity extends AppCompatActivity {
         alarmManager.set(AlarmManager.RTC_WAKEUP,calEnd.getTimeInMillis(), PendingIntent.getBroadcast(this, end,  intentEndAlarm, PendingIntent.FLAG_UPDATE_CURRENT));
 
         Toast.makeText(ProductiveActivity.this, "Productive Period Set", Toast.LENGTH_LONG).show();
-        Intent in = new Intent(ProductiveActivity.this, EventHome.class);
-        startActivity(in);
+        Intent returnIntent = new Intent();
+        if(startHour > 12){
+            startHour = startHour-12;
+            endHour = endHour-12;
+            returnIntent.putExtra("times", startHour+":"+startMin+"pm to "+endHour+":"+endMin+"pm");
+        }
+        else{
+            returnIntent.putExtra("times", startHour+":"+startMin+"am to "+endHour+":"+endMin+"am");
+        }
+
+        setResult(ProductiveActivity.RESULT_OK,returnIntent);
+        finish();
     }
 
     public void cancel(View v){

@@ -58,7 +58,7 @@ public class internalStorage {
      */
     public ArrayList<Object[]> retrieveEvents(){
         ArrayList<Object[]> array = new ArrayList<Object[]>();
-        SQLiteDatabase db = SQLiteDatabase.openOrCreateDatabase("309WNWN", null);
+        SQLiteDatabase db = context.openOrCreateDatabase("309WNWN", Context.MODE_PRIVATE, null);
         Cursor c = db.rawQuery("SELECT * FROM Events", null);
         c.moveToFirst();
         int i = 0;
@@ -129,9 +129,8 @@ public class internalStorage {
     /**
      * deletes all events that have ended
      */
-    public void cleanEvents(){
-        SQLiteDatabase db = SQLiteDatabase.openOrCreateDatabase("309WNWN", null);
-        db.execSQL("DELETE * FROM Events WHERE End < " + System.currentTimeMillis() + ";");
-        return;
+    public void clearEvents(){
+        SQLiteDatabase db = context.openOrCreateDatabase("309WNWN",Context.MODE_PRIVATE, null);
+        db.execSQL("DELETE FROM Events;"); //WHERE End < " + System.currentTimeMillis() + ";");
     }
 }
