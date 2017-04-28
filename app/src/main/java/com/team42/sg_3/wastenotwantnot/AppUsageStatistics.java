@@ -35,6 +35,7 @@ public class AppUsageStatistics {
     public static final String TAG = AppUsageStatistics.class.getSimpleName();
     private static Timer timer = null;
     private static String currentApp = "";
+    private static boolean[] disabledApps = new boolean[5];
     private static String[] mostUsedApps = new String[5];
 
     private static boolean isValidPackage(String packageName) {
@@ -65,6 +66,7 @@ public class AppUsageStatistics {
             usageStatsList.set(index, usageStatsList.get(usageStatsList.size() - i - 1));
             usageStatsList.set(usageStatsList.size() - i - 1, temp);
         }
+        disabledApps = new boolean[5];
     }
 
     public static String[] getMostUsedApps() {
@@ -87,6 +89,15 @@ public class AppUsageStatistics {
         List<UsageStats> usageStatsList = usm.queryUsageStats(UsageStatsManager.INTERVAL_DAILY,startTime,endTime);
 
         return usageStatsList;
+    }
+
+
+    public static boolean[] getTheDisabledApps(){
+        return disabledApps;
+    }
+
+    public static void toggleDisable(int position){
+        disabledApps[position] = !disabledApps[position];
     }
 
     @SuppressWarnings("ResourceType")
@@ -136,8 +147,8 @@ public class AppUsageStatistics {
                 String foreground = getForegroundApp(c);
                 if(!currentApp.equals(foreground)) {
                     boolean lockout = false;
-                    for(String app : mostUsedApps) {
-                        if(foreground.equals(app)) {
+                    for(int i = 0; i < mostUsedApps.length; i++) {
+                        if(foreground.equals(mostUsedApps[i]) && disabledApps[i]) {
                             lockout = true;
                             break;
                         }
