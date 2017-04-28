@@ -73,23 +73,26 @@ public class WeekActivity extends WeekViewActivity {
         internalStorage is = new internalStorage(getApplicationContext());
         if(!is.retrieveEvents().isEmpty()) {
             ArrayList<Object[]> list = is.retrieveEvents();
-            Calendar cal = Calendar.getInstance();
-            cal.setTimeInMillis((long) list.get(0)[1]);
-            Calendar calEnd = Calendar.getInstance();
-            calEnd.setTimeInMillis((long) list.get(0)[2]);
-            startTime = Calendar.getInstance();
-            startTime.set(Calendar.HOUR_OF_DAY, cal.get(Calendar.HOUR_OF_DAY));
-            startTime.set(Calendar.MINUTE, cal.get(Calendar.MINUTE));
-            startTime.set(Calendar.MONTH, cal.get(Calendar.MONTH));
-            startTime.set(Calendar.YEAR, cal.get(Calendar.YEAR));
-            startTime.add(Calendar.DATE, cal.get(Calendar.DATE));
-            endTime = (Calendar) startTime.clone();
-            endTime.set(Calendar.HOUR_OF_DAY, calEnd.get(Calendar.HOUR_OF_DAY));
-            endTime.set(Calendar.MINUTE, calEnd.get(Calendar.MINUTE));
-            endTime.set(Calendar.MONTH, calEnd.get(Calendar.MONTH));
-            event = new WeekViewEvent(1, (String) list.get(0)[0], startTime, endTime);
-            event.setColor(getResources().getColor(R.color.event_color_03));
-            events.add(event);
+            for(int i =0; i < list.size(); i++){
+                Calendar cal = Calendar.getInstance();
+                cal.setTimeInMillis((long) list.get(i)[1]);
+                Calendar calEnd = Calendar.getInstance();
+                calEnd.setTimeInMillis((long) list.get(i)[2]);
+                startTime = Calendar.getInstance();
+                startTime.set(Calendar.HOUR_OF_DAY, cal.get(Calendar.HOUR_OF_DAY));
+                startTime.set(Calendar.MINUTE, cal.get(Calendar.MINUTE));
+                startTime.set(Calendar.MONTH, cal.get(Calendar.MONTH)+1);
+                startTime.set(Calendar.YEAR, cal.get(Calendar.YEAR));
+                startTime.add(Calendar.DATE, cal.get(Calendar.DATE));
+                endTime = (Calendar) startTime.clone();
+                endTime.set(Calendar.HOUR_OF_DAY, calEnd.get(Calendar.HOUR_OF_DAY));
+                endTime.set(Calendar.MINUTE, calEnd.get(Calendar.MINUTE));
+                endTime.set(Calendar.MONTH, calEnd.get(Calendar.MONTH)+1);
+                event = new WeekViewEvent(1, (String) list.get(0)[0], startTime, endTime);
+                event.setColor(getResources().getColor(R.color.event_color_03));
+                events.add(event);
+            }
+
         }
 
         startTime = Calendar.getInstance();
