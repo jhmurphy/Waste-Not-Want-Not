@@ -9,8 +9,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-import static android.content.Context.MODE_PRIVATE;
-
 
 /**
  * Created by Cory on 4/25/2017.
@@ -35,16 +33,9 @@ public class internalStorage {
 
         SQLiteDatabase db = context.openOrCreateDatabase("309WNWN", Context.MODE_PRIVATE, null);
 
-        db.execSQL("CREATE TABLE IF NOT EXISTS Events(Title STRING, Start long, End long);");//Maybe change long to text
-        //Date sd = new Date(start);
-        //Date ed = new Date(end);
-
-        //String startDate = ""+sd.getYear()+"-"+sd.getMonth()+"-"+sd.getDay()+" "+sd.getHours()%24+":"+sd.getMinutes()%60+":"+sd.getSeconds()%60+".000";
-        //String endDate = ""+ed.getYear()+"-"+ed.getMonth()+"-"+ed.getDay()+" "+ed.getHours()%24+":"+ed.getMinutes()%60+":"+ed.getSeconds()%60+".000";
+        db.execSQL("CREATE TABLE IF NOT EXISTS Events(Title STRING, Start long, End long);");
 
         db.execSQL("INSERT INTO Events(Title, Start, End) VALUES('"+ title + "', '"+start+"', '" + end + "');");
-
-        //db.execSQL("INSERT INTO Events(Title, Start, End) VALUES('"+ title + "', '"+startDate+"', '" + endDate + "');");
 
         String s = "Event "+title + " Added for "+ millisToDate(start) + " to " + millisToDate(end);
 
@@ -116,21 +107,16 @@ public class internalStorage {
      */
     public void deleteEvent(String title, long start, long end){
         SQLiteDatabase db = SQLiteDatabase.openOrCreateDatabase("309WNWN", null);
-        /*
-        Date sd = new Date(start);
-        Date ed = new Date(end);
 
-        String startDate = ""+sd.getYear()+"-"+sd.getMonth()+"-"+sd.getDay()+" "+sd.getHours()%24+":"+sd.getMinutes()%60+":"+sd.getSeconds()%60+".000";
-        String endDate = ""+ed.getYear()+"-"+ed.getMonth()+"-"+ed.getDay()+" "+ed.getHours()%24+":"+ed.getMinutes()%60+":"+ed.getSeconds()%60+".000";
-        */
-        db.execSQL("DELETE * FROM Events WHERE Title = " + title + " AND Start = " + start + " AND End = " + end);
+        db.execSQL("DELETE FROM Events WHERE Title = " + title + " AND Start = " + start + " AND End = " + end);
     }
 
     /**
      * deletes all events that have ended
      */
-    public void clearEvents(){
-        SQLiteDatabase db = context.openOrCreateDatabase("309WNWN",Context.MODE_PRIVATE, null);
-        db.execSQL("DELETE FROM Events;"); //WHERE End < " + System.currentTimeMillis() + ";");
+    public void cleanEvents(){
+        SQLiteDatabase db = SQLiteDatabase.openOrCreateDatabase("309WNWN", null);
+        db.execSQL("DELETE FROM Events WHERE End < " + System.currentTimeMillis() + ";");
+        return;
     }
 }
