@@ -1,5 +1,3 @@
-Cory Johannes
-Jack
-Simanta
-Carter
-Collin Franzen
+# Waste Not Want Not
+###### by Jack Murphy, Carter Scheve, and Cory Johannes
+
